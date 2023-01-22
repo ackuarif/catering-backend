@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+}
+
+model admin {
+  id          Int       @id @default(autoincrement())
+  nama        String
+  user_id     String
+  password    String
+  created_at  DateTime  @default(now())
+  deleted_at  DateTime?
+  menus       menu[]
+}
+
+model pelanggan {
+  id          Int       @id @default(autoincrement())
+  nama        String
+  user_id     String
+  password    String
+  telepon     Int
+  alamat      String
+  created_at  DateTime  @default(now())
+  deleted_at  DateTime?
+  pemesanans  pemesanan[]
+}
+
+model menu {
+  id          Int       @id @default(autoincrement())
+  admin_id    Int
+  nama        String
+  harga       Int
+  diskon      Int
+  gambar      String?
+  detail      String
+  created_at  DateTime  @default(now())
+  deleted_at  DateTime?
+  admin       admin     @relation(fields: [admin_id], references: [id])
+  keranjangs  keranjang[]
+}
+
+model pemesanan {
+  id            Int       @id @default(autoincrement())
+  pelanggan_id  Int
+  tgl_pesan     DateTime
+  tgl_antar     DateTime
+  tgl_bayar     DateTime?
+  tgl_verif     DateTime?
+  ket           String?
+  bukti_bayar   String?
+  created_at    DateTime  @default(now())
+  pelanggan     pelanggan @relation(fields: [pelanggan_id], references: [id])
+  keranjangs    keranjang[]
+}
+
+model keranjang {
+  id            Int       @id @default(autoincrement())
+  pemesanan_id  Int?
+  pelanggan_id  Int
+  menu_id       Int
+  jumlah        Int
+  harga         Int
+  created_at    DateTime  @default(now())
+  pemesanan     pemesanan? @relation(fields: [pemesanan_id], references: [id])
+  menu          menu @relation(fields: [menu_id], references: [id])
+}
+
