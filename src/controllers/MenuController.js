@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 export const addMenu = async (req, res) => {
 	try {
 		let {
-			admin_id,
 			nama,
 			harga,
 			diskon,
@@ -14,8 +13,11 @@ export const addMenu = async (req, res) => {
 			detail,
 		} = req.body;
 
-		if (!admin_id 
-			|| !nama 
+		const {
+			id: admin_id
+		} = req.user;
+
+		if (!nama 
 			|| !harga
 			|| diskon == ''
 			|| gambar == ''
@@ -27,7 +29,6 @@ export const addMenu = async (req, res) => {
 			});
 		}
 
-		admin_id = parseInt(admin_id);
 		harga = parseInt(harga);
 		diskon = parseInt(diskon);
 
@@ -78,16 +79,19 @@ export const addMenu = async (req, res) => {
 export const updateMenu = async (req, res) => {
 	try {
 		let { id } = req.params;
+
 		let {
-			admin_id,
 			nama,
 			harga,
 			diskon,
 			detail,
 		} = req.body;
 
+		const {
+			id: admin_id
+		} = req.user;
+
 		if (!id 
-			|| !admin_id 
 			|| !nama 
 			|| !harga 
 			|| diskon == '' 

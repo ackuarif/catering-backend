@@ -15,7 +15,7 @@ export const pelangganIsAuthenticated = async (req, res, next) => {
 		}
 
 		const verify = jwt.verify(token, process.env.SECRET_KEY);
-		req.user = await prisma.user.findFirst({ where: { user_id: verify.user_id } });
+		req.user = await prisma.pelanggan.findFirst({ where: { user_id: verify.user_id } });
 		next();
 	} catch (error) {
 		return res.status(500).json({

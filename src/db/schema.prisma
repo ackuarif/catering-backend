@@ -64,6 +64,7 @@ model keranjang {
   menu_id       Int
   jumlah        Int
   harga         Int
+  diskon        Int
   created_at    DateTime  @default(now())
   pemesanan     pemesanan? @relation(fields: [pemesanan_id], references: [id])
   menu          menu @relation(fields: [menu_id], references: [id])

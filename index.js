@@ -6,6 +6,7 @@ import {
 	AdminRoutes,
 	PelangganRoutes,
 	MenuRoutes,
+	KeranjangRoutes,
 } from "./src/routes";
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/admin", AdminRoutes);
 app.use("/api/pelanggan", PelangganRoutes);
 app.use("/api/menu", MenuRoutes);
+app.use("/api/keranjang", KeranjangRoutes);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
