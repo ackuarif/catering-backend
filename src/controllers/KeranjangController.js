@@ -52,6 +52,9 @@ export const addKeranjang = async (req, res) => {
 				harga,
 				diskon,
 			},
+			include: {
+				menu: true
+			},
 		});
 
 		return res.json({
