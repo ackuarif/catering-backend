@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { getLogTodayRepository } from "../repositories/LogRepository";
 
 const prisma = new PrismaClient();
 
@@ -24,6 +25,23 @@ export const addLog = async (req, res) => {
 		return res.json({
 			success: true,
 			message: "Log berhasil disimpan.",
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: error
+		});
+	}
+};
+
+export const getLogToday = async (req, res) => {
+	try {
+		const getLogToday = await getLogTodayRepository()
+
+		return res.json({
+			success: true,
+			message: "Log berhasil disimpan.",
+			data: getLogToday,
 		});
 	} catch (error) {
 		return res.status(500).json({
