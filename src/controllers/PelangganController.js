@@ -24,14 +24,14 @@ export const addPelanggan = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
 		if (password != password_confirm) {
 			return res.status(400).json({
 				success: false,
-				message: "Password not confirmed."
+				message: "Maaf, password tidak sesuai."
 			});
 		}
 
@@ -44,7 +44,7 @@ export const addPelanggan = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(201).json({
 				success: false,
-				message: 'Pelanggan already exist.'
+				message: 'Maaf, User ID tersebut telah tersedia.'
 			});
 		}
 
@@ -67,7 +67,7 @@ export const addPelanggan = async (req, res) => {
 
 		return res.cookie(token).json({
 			success: true,
-			message: "Pelanggan successfully created",
+			message: "Registrasi berhasil.",
 			data: addPelanggan,
 		});
 	} catch (error) {
@@ -97,7 +97,7 @@ export const updatePelanggan = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -119,7 +119,7 @@ export const updatePelanggan = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(201).json({
 				success: false,
-				message: 'Pelanggan already exist.'
+				message: 'Maaf, User ID tersebut telah tersedia.'
 			});
 		}		
 
@@ -137,7 +137,7 @@ export const updatePelanggan = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Pelanggan successfully updated",
+			message: "Data berhasil diubah.",
 			data: updatePelanggan
 		});
 	} catch (error) {
@@ -156,7 +156,7 @@ export const deletePelanggan = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -172,7 +172,7 @@ export const deletePelanggan = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(500).json({
 				success: false,
-				message: 'Pelanggan has been deleted.'
+				message: 'Maaf, Pelanggan telah terhapus.'
 			});
 		}
 
@@ -189,7 +189,7 @@ export const deletePelanggan = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Pelanggan successfully deleted",
+			message: "Pelanggan berhasil dihapus.",
 			data: deletePelanggan
 		});
 	} catch (error) {
@@ -215,14 +215,14 @@ export const updatePassword = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
 		if (password != password_confirm) {
 			return res.status(400).json({
 				success: false,
-				message: "Password not confirmed."
+				message: "Maaf, password tidak sesuai."
 			});
 		}
 
@@ -240,7 +240,7 @@ export const updatePassword = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Password successfully updated",
+			message: "Password berhasil diubah.",
 		});
 	} catch (error) {
 		return res.status(500).json({
@@ -257,7 +257,7 @@ export const login = async (req, res) => {
 		if (!user_id || !password) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -270,7 +270,7 @@ export const login = async (req, res) => {
 		if (!user) {
             return res.status(404).json({
 				success: false,
-				message: "User not found."
+				message: "Maaf, User tidak ditemukan."
 			});
 		}
 
@@ -279,7 +279,7 @@ export const login = async (req, res) => {
 		if (!isMatched) {
             return res.status(401).json({
 				success: false,
-				message: "Password is wrong."
+				message: "Maaf, password tidak sesuai."
 			});
 		}
 
@@ -290,7 +290,7 @@ export const login = async (req, res) => {
 		return res
 			.cookie("token", token)
             .status(200)
-			.json({ success: true, message: "LoggedIn Successfully" });
+			.json({ success: true, message: "Berhasil login." });
 	} catch (error) {
 		return res.json({ error: error });
 	}
@@ -298,5 +298,5 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
 	res.clearCookie("token");
-	return res.status(200).json({ success: true, message: "logged out" });
+	return res.status(200).json({ success: true, message: "Berhasil logout." });
 };

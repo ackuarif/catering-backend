@@ -25,7 +25,7 @@ export const addMenu = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -46,7 +46,7 @@ export const addMenu = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(201).json({
 				success: false,
-				message: 'Menu already exist.'
+				message: 'Maaf, Menu sudah tersedia.'
 			});
 		}
 
@@ -65,7 +65,7 @@ export const addMenu = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Menu successfully created",
+			message: "Menu berhasil disimpan.",
 			data: addMenu,
 		});
 	} catch (error) {
@@ -99,7 +99,7 @@ export const updateMenu = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -127,7 +127,7 @@ export const updateMenu = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(201).json({
 				success: false,
-				message: 'Menu already exist.'
+				message: 'Maaf, menu tersebut telah tersedia.'
 			});
 		}	
 
@@ -155,7 +155,7 @@ export const updateMenu = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Menu successfully updated",
+			message: "Menu berhasil diubah.",
 			data: updateMenu
 		});
 	} catch (error) {
@@ -174,7 +174,7 @@ export const deleteMenu = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -190,7 +190,7 @@ export const deleteMenu = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(500).json({
 				success: false,
-				message: 'Menu has been deleted.'
+				message: 'Maaf, menu telah terhapus.'
 			});
 		}
 
@@ -207,7 +207,7 @@ export const deleteMenu = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Menu successfully deleted",
+			message: "Menu berhasil dihapus.",
 			data: deleteMenu
 		});
 	} catch (error) {
@@ -228,7 +228,7 @@ export const getMenuAll = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Success",
+			message: "Sukses",
 			data: getMenuAll
 		});
 	} catch (error) {
@@ -247,7 +247,7 @@ export const getMenuById = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -260,7 +260,7 @@ export const getMenuById = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Success",
+			message: "Sukses",
 			data: getMenuById
 		});
 	} catch (error) {

@@ -20,14 +20,14 @@ export const addAdmin = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: req.body
+				message: "Maaf, Maaf, Parameter tidak lengkap."
 			});
 		}
 
 		if (password != password_confirm) {
 			return res.status(400).json({
 				success: false,
-				message: "Password not confirmed."
+				message: "Maaf, Password tidak sesuai."
 			});
 		}
 
@@ -40,7 +40,7 @@ export const addAdmin = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(201).json({
 				success: false,
-				message: 'Admin already exist.'
+				message: 'Maaf, User ID tersebut telah tersedia.'
 			});
 		}
 
@@ -61,7 +61,7 @@ export const addAdmin = async (req, res) => {
 
 		return res.cookie(token).json({
 			success: true,
-			message: "Admin successfully created",
+			message: "Data admin berhasil disimpan.",
 			data: addAdmin,
 		});
 	} catch (error) {
@@ -87,7 +87,7 @@ export const updateAdmin = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -109,7 +109,7 @@ export const updateAdmin = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(201).json({
 				success: false,
-				message: 'Admin already exist.'
+				message: 'Maaf, User ID terebut telah tersedia.'
 			});
 		}		
 
@@ -125,7 +125,7 @@ export const updateAdmin = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Admin successfully updated",
+			message: "Data admin berhasil diubah.",
 			data: updateAdmin
 		});
 	} catch (error) {
@@ -144,7 +144,7 @@ export const deleteAdmin = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -160,7 +160,7 @@ export const deleteAdmin = async (req, res) => {
 		if(checkData.length > 0){
 			return res.status(500).json({
 				success: false,
-				message: 'Admin has been deleted.'
+				message: 'Maaf, Data admin tersebut telah terhapus.'
 			});
 		}
 
@@ -177,7 +177,7 @@ export const deleteAdmin = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Admin successfully deleted",
+			message: "Data admin berhasil dihapus.",
 			data: deleteAdmin
 		});
 	} catch (error) {
@@ -203,14 +203,14 @@ export const updatePassword = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
 		if (password != password_confirm) {
 			return res.status(400).json({
 				success: false,
-				message: "Password not confirmed."
+				message: "Maaf, Password tidak sesuai."
 			});
 		}
 
@@ -228,7 +228,7 @@ export const updatePassword = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Password successfully updated",
+			message: "Password berhasil diubah.",
 		});
 	} catch (error) {
 		return res.status(500).json({
@@ -258,7 +258,7 @@ export const login = async (req, res) => {
 		if (!user) {
             return res.status(404).json({
 				success: false,
-				message: "User not found."
+				message: "Maaf, User tidak ditemukan."
 			});
 		}
 
@@ -267,7 +267,7 @@ export const login = async (req, res) => {
 		if (!isMatched) {
             return res.status(401).json({
 				success: false,
-				message: "Password is wrong."
+				message: "Maaf, Password tidak sesuai."
 			});
 		}
 
@@ -278,7 +278,7 @@ export const login = async (req, res) => {
 		return res
 			.cookie("token", token)
             .status(200)
-			.json({ success: true, message: "LoggedIn Successfully" });
+			.json({ success: true, message: "Berhasil login." });
 	} catch (error) {
 		return res.json({ error: error });
 	}
@@ -286,5 +286,5 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
 	res.clearCookie("token");
-	return res.status(200).json({ success: true, message: "logged out" });
+	return res.status(200).json({ success: true, message: "Berhasil logout." });
 };

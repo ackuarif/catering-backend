@@ -46,10 +46,12 @@ model menu {
 model pemesanan {
   id            Int       @id @default(autoincrement())
   pelanggan_id  Int
-  tgl_pesan     DateTime
-  tgl_antar     DateTime
+  no_pesan      String
+  tgl_pesan     DateTime  @default(now())
+  tgl_antar     DateTime?
   tgl_bayar     DateTime?
   tgl_verif     DateTime?
+  tgl_selesai   DateTime?
   ket           String?
   bukti_bayar   String?
   created_at    DateTime  @default(now())
@@ -70,3 +72,18 @@ model keranjang {
   menu          menu @relation(fields: [menu_id], references: [id])
 }
 
+model chat {
+  id            Int       @id @default(autoincrement())
+  pemesanan_id  Int
+  nama          String
+  user_type     String    @default("Pelanggan")
+  chat          String
+  status        String?
+  created_at    DateTime  @default(now())
+}
+
+model logs {
+  id            Int       @id @default(autoincrement())
+  ip_address    String
+  created_at    DateTime  @default(now())
+}

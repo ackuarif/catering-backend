@@ -18,7 +18,7 @@ export const addKeranjang = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -59,7 +59,7 @@ export const addKeranjang = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Keranjang successfully created",
+			message: "Berhasil mengisi keranjang.",
 			data: addKeranjang,
 		});
 	} catch (error) {
@@ -78,7 +78,7 @@ export const deleteKeranjang = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
 
@@ -91,7 +91,7 @@ export const deleteKeranjang = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Keranjang successfully deleted",
+			message: "Item berhasil dihapus.",
 			data: deleteKeranjang
 		});
 	} catch (error) {
@@ -120,7 +120,7 @@ export const getKeranjangAll = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Success",
+			message: "Sukses.",
 			data: getKeranjangAll,
 		});
 	} catch (error) {
@@ -131,29 +131,34 @@ export const getKeranjangAll = async (req, res) => {
 	}
 };
 
-export const getKeranjangById = async (req, res) => {
+export const getKeranjangByPemesananId = async (req, res) => {
 	try {
 		let { id } = req.params;
-		id = parseInt(id);
-
-		if (!id) {
+		if (!id){
 			return res.status(400).json({
 				success: false,
-				message: "Missing parameter."
+				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
+		id = parseInt(id);
 
-		const getKeranjangById = await prisma.keranjang.findFirst({
+		const {
+			id: pelanggan_id
+		} = req.user;
+
+		const getKeranjangByPemesananId = await prisma.keranjang.findMany({
 			where: {
-				id,
-				deleted_at: null,
+				pemesanan_id: id,
 			},
+			include: {
+				menu: true,
+			}
 		});
 
 		return res.json({
 			success: true,
-			message: "Success",
-			data: getKeranjangById
+			message: "Sukses",
+			data: getKeranjangByPemesananId,
 		});
 	} catch (error) {
 		return res.status(500).json({
@@ -162,3 +167,65 @@ export const getKeranjangById = async (req, res) => {
 		});
 	}
 };
+
+export const getTotalKeranjangByPelanggan = async (req, res) => {
+	try {
+		let {
+			id: pelanggan_id
+		} = req.user;
+
+		const getTotalKeranjangByPelanggan = await prisma.$queryRaw`
+			SELECT
+				ROUND(SUM((jumlah*harga)*((diskon/100)+1))) AS total 
+			FROM
+				keranjang
+			WHERE
+				pelanggan_id = ${pelanggan_id}
+				AND pemesanan_id is null
+		`;
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getTotalKeranjangByPelanggan
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: error
+		});
+	}	
+}
+
+export const getTotalByPemesananId = async (req, res) => {
+	try {
+		let { id } = req.params;
+		if (!id){
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, Parameter tidak lengkap."
+			});
+		}
+		id = parseInt(id);
+
+		const getTotalByPemesananId = await prisma.$queryRaw`
+			SELECT
+				ROUND(SUM((jumlah*harga)*((diskon/100)+1))) AS total 
+			FROM
+				keranjang
+			WHERE
+				pemesanan_id = ${id}
+		`;
+
+		return res.json({
+			success: true,
+			message: "Success",
+			data: getTotalByPemesananId
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: error
+		});
+	}	
+}

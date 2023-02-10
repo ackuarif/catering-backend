@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "pemesanan" ALTER COLUMN "tgl_pesan" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "tgl_antar" DROP NOT NULL;

@@ -10,7 +10,7 @@ export const pelangganIsAuthenticated = async (req, res, next) => {
 		if (!token) {
 			return res.status(400).json({
 				success: false,
-				message: "Please login to access the data"
+				message: "Maaf, mohon login terlebih dahulu."
 			});
 		}
 
@@ -32,7 +32,7 @@ export const adminIsAuthenticated = async (req, res, next) => {
 		if (!token) {
 			return res.status(400).json({
 				success: false,
-				message: "Please login to access the data"
+				message: "Maaf, mohon login terlebih dahulu."
 			});
 		}
 
