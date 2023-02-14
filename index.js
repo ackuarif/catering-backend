@@ -14,12 +14,12 @@ import {
 
 dotenv.config();
 const app = express();
-const port = 3000;
+const port = 8000;
 
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "http://localhost:5173",
+		origin: "http://localhost:3000",
 		credentials: true,
 	})
 );

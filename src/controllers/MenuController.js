@@ -226,6 +226,10 @@ export const getMenuAll = async (req, res) => {
 			},
 		});
 
+		getMenuAll.forEach((elm) => {
+			elm.detail = elm.detail.substr(0,50)+"...";
+		});
+
 		return res.json({
 			success: true,
 			message: "Sukses",
