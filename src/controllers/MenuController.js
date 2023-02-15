@@ -226,8 +226,16 @@ export const getMenuAll = async (req, res) => {
 			},
 		});
 
+		// const getMenuAll = [];
+
+		if(!getMenuAll.length)
+			return res.json({
+				success: false,
+				message: "Data tidak ada.",
+			});
+
 		getMenuAll.forEach((elm) => {
-			elm.detail = elm.detail.substr(0,50)+"...";
+			elm.detail = elm.detail.substr(0,100)+"...";
 		});
 
 		return res.json({
@@ -238,7 +246,7 @@ export const getMenuAll = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -261,6 +269,12 @@ export const getMenuById = async (req, res) => {
 				deleted_at: null,
 			},
 		});
+
+		if(!getMenuById)
+			return res.json({
+				success: false,
+				message: "Data tidak ada.",
+			});
 
 		return res.json({
 			success: true,

@@ -9,3 +9,4 @@ routes.post("/login", PelangganController.login);
 routes.post("/logout", Auth.pelangganIsAuthenticated, PelangganController.login);
 routes.put("/:id", Auth.pelangganIsAuthenticated, PelangganController.updatePelanggan);
 routes.delete("/:id", Auth.adminIsAuthenticated, PelangganController.deletePelanggan);
+routes.get("/getSelfUser", Auth.pelangganIsAuthenticated, PelangganController.getSelfUser);
