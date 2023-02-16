@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export const addPelanggan = async (req, res) => {
 	try {
-		const { 
+		let { 
 			nama,
 			user_id,
 			password,
@@ -27,6 +27,8 @@ export const addPelanggan = async (req, res) => {
 				message: "Maaf, Parameter tidak lengkap."
 			});
 		}
+
+		telepon = parseInt(telepon);
 
 		if (password != password_confirm) {
 			return res.status(400).json({
@@ -69,11 +71,12 @@ export const addPelanggan = async (req, res) => {
 			success: true,
 			message: "Registrasi berhasil.",
 			data: addPelanggan,
+			token,
 		});
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };

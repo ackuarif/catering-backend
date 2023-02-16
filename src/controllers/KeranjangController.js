@@ -43,15 +43,17 @@ export const addKeranjang = async (req, res) => {
 				pelanggan_id,
 			},
 		});
-		
+
+		const data =  {
+			menu_id,
+			pelanggan_id,
+			jumlah,
+			harga,
+			diskon
+		}
+
 		const addKeranjang = await prisma.keranjang.create({
-			data: {
-				menu_id,
-				pelanggan_id,
-				jumlah,
-				harga,
-				diskon,
-			},
+			data,
 			include: {
 				menu: true
 			},
@@ -65,7 +67,7 @@ export const addKeranjang = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
