@@ -19,7 +19,7 @@ export const addChatPelanggan = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -62,7 +62,7 @@ export const addChatAdmin = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -96,7 +96,7 @@ export const getChatByPemesananId = async (req, res) => {
 		if (!id){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 		id = parseInt(id);

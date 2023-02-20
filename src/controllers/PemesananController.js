@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import moment from "moment/moment";
-import { toDate } from "../libs/datetime";
+import { minuteToDateTime, toDate } from "../libs/datetime";
 import cloudinary from "../libs/cloudinary";
 import { 
 	getJmlPemesananTodayRepository,
@@ -26,12 +26,12 @@ export const addPemesanan = async (req, res) => {
 		if (!tgl_antar){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 		
         const no_pesan = 'P'+moment().format('DDMMYYHHmmss');
-        tgl_antar = toDate(tgl_antar);
+        tgl_antar = minuteToDateTime(tgl_antar);
 
 		const addPemesanan = await prisma.pemesanan.create({
 			data: {
@@ -44,6 +44,7 @@ export const addPemesanan = async (req, res) => {
 
         const updateKeranjangByPelangganId = await prisma.keranjang.updateMany({
 			where: {
+				pemesanan_id: null,
 				pelanggan_id,
 			},
 			data: {
@@ -59,7 +60,7 @@ export const addPemesanan = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -72,7 +73,7 @@ export const deletePemesanan = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -87,7 +88,7 @@ export const deletePemesanan = async (req, res) => {
 
 		if(checkPemesanan.length > 0){
 			return res.json({
-				success: true,
+				success: false,
 				message: "Maaf, pemesanan telah terbayar.",
 			});		
 		}
@@ -124,6 +125,13 @@ export const getPemesananAll = async (req, res) => {
 			},
 		});
 
+		if (getPemesananAll.length == 0) {
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, data tidak ditemukan."
+			});
+		}
+
 		return res.json({
 			success: true,
 			message: "Sukses",
@@ -142,14 +150,9 @@ export const getById = async (req, res) => {
 		let { id } = req.params;
 		id = parseInt(id);
 
-		const {
-			id: pelanggan_id
-		} = req.user;
-
 		const getById = await prisma.pemesanan.findFirst({
 			where: {
 				id,
-				pelanggan_id,
 			},
 		});
 
@@ -180,9 +183,11 @@ export const addPembayaran = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
+
+		tgl_bayar = minuteToDateTime(tgl_bayar);
 
 		const {
 			path,
@@ -256,7 +261,7 @@ export const verifPemesanan = async (req, res) => {
 		if (!id){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -325,7 +330,7 @@ export const selesaiPemesanan = async (req, res) => {
 		if (!id){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 

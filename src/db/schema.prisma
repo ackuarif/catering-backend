@@ -12,7 +12,7 @@ model admin {
   nama        String
   user_id     String
   password    String
-  created_at  DateTime  @default(now())
+  created_at  DateTime  @default(now()) @db.Timestamptz(3)
   deleted_at  DateTime?
   menus       menu[]
 }
@@ -24,7 +24,7 @@ model pelanggan {
   password    String
   telepon     Int
   alamat      String
-  created_at  DateTime  @default(now())
+  created_at  DateTime  @default(now()) @db.Timestamptz(3)
   deleted_at  DateTime?
   pemesanans  pemesanan[]
 }
@@ -37,7 +37,7 @@ model menu {
   diskon      Int
   gambar      String?
   detail      String
-  created_at  DateTime  @default(now())
+  created_at  DateTime  @default(now()) @db.Timestamptz(3)
   deleted_at  DateTime?
   admin       admin     @relation(fields: [admin_id], references: [id])
   keranjangs  keranjang[]
@@ -47,14 +47,14 @@ model pemesanan {
   id            Int       @id @default(autoincrement())
   pelanggan_id  Int
   no_pesan      String
-  tgl_pesan     DateTime  @default(now())
+  tgl_pesan     DateTime  @default(now()) @db.Timestamptz(3)
   tgl_antar     DateTime?
   tgl_bayar     DateTime?
   tgl_verif     DateTime?
   tgl_selesai   DateTime?
   ket           String?
   bukti_bayar   String?
-  created_at    DateTime  @default(now())
+  created_at    DateTime  @default(now()) @db.Timestamptz(3)
   pelanggan     pelanggan @relation(fields: [pelanggan_id], references: [id])
   keranjangs    keranjang[]
 }
@@ -67,7 +67,7 @@ model keranjang {
   jumlah        Int
   harga         Int
   diskon        Int?
-  created_at    DateTime  @default(now())
+  created_at    DateTime  @default(now()) @db.Timestamptz(3)
   pemesanan     pemesanan? @relation(fields: [pemesanan_id], references: [id])
   menu          menu @relation(fields: [menu_id], references: [id])
 }
@@ -79,11 +79,11 @@ model chat {
   user_type     String    @default("Pelanggan")
   chat          String
   status        String?
-  created_at    DateTime  @default(now())
+  created_at    DateTime  @default(now()) @db.Timestamptz(3)
 }
 
 model logs {
   id            Int       @id @default(autoincrement())
   ip_address    String
-  created_at    DateTime  @default(now())
+  created_at    DateTime  @default(now()) @db.Timestamptz(3)
 }

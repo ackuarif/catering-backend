@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "pemesanan" ALTER COLUMN "tgl_pesan" SET DATA TYPE TIMESTAMPTZ(3),
+ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ(3);

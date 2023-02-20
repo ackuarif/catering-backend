@@ -20,7 +20,7 @@ export const addAdmin = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Maaf, Parameter tidak lengkap."
+				message: "Maaf, Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -87,7 +87,7 @@ export const updateAdmin = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -144,7 +144,7 @@ export const deleteAdmin = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -203,7 +203,7 @@ export const updatePassword = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 

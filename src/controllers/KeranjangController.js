@@ -18,7 +18,7 @@ export const addKeranjang = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -80,11 +80,11 @@ export const deleteKeranjang = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
-		const deleteKeranjang = await prisma.keranjang.delete({
+		const deleteKeranjang = await prisma.keranjang.deleteMany({
 			where: {
 				id,
 				pemesanan_id: null,
@@ -99,7 +99,7 @@ export const deleteKeranjang = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -120,6 +120,13 @@ export const getKeranjangAll = async (req, res) => {
 			}
 		});
 
+		if (getKeranjangAll.length == 0) {
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, Data tidak ditemukan."
+			});
+		}
+
 		return res.json({
 			success: true,
 			message: "Sukses.",
@@ -139,7 +146,7 @@ export const getKeranjangByPemesananId = async (req, res) => {
 		if (!id){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 		id = parseInt(id);
@@ -178,7 +185,7 @@ export const getTotalKeranjangByPelanggan = async (req, res) => {
 
 		const getTotalKeranjangByPelanggan = await prisma.$queryRaw`
 			SELECT
-				ROUND(SUM((jumlah*harga)*((diskon/100)+1))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
 				keranjang
 			WHERE
@@ -205,14 +212,14 @@ export const getTotalByPemesananId = async (req, res) => {
 		if (!id){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 		id = parseInt(id);
 
 		const getTotalByPemesananId = await prisma.$queryRaw`
 			SELECT
-				ROUND(SUM((jumlah*harga)*((diskon/100)+1))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
 				keranjang
 			WHERE

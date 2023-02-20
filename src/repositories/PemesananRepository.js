@@ -8,7 +8,7 @@ export const getPemesananVerifRepository = async () => {
 		return await prisma.$queryRaw`
 			SELECT
                 pemesanan.*,
-				ROUND(SUM((keranjang.jumlah*keranjang.harga)*((keranjang.diskon/100)+1))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
                 pemesanan,
 				keranjang
@@ -29,7 +29,7 @@ export const getPemesananProsesRepository = async () => {
 		return await prisma.$queryRaw`
 			SELECT
                 pemesanan.*,
-				ROUND(SUM((keranjang.jumlah*keranjang.harga)*((keranjang.diskon/100)+1))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
                 pemesanan,
 				keranjang
@@ -50,7 +50,7 @@ export const getPemesananSelesaiRepository = async () => {
 		return await prisma.$queryRaw`
 			SELECT
                 pemesanan.*,
-				ROUND(SUM((keranjang.jumlah*keranjang.harga)*((keranjang.diskon/100)+1))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
                 pemesanan,
 				keranjang
@@ -74,14 +74,14 @@ export const laporanPendapatanByDateRepository = async (req) => {
     if (!tgl_dari
         || !tgl_sampai
     ){
-        throw "Maaf, parameter tidak lengkap.";
+        throw "Maaf, pengisian formulir tidak lengkap.";
     }
 
 	try {
 		return await prisma.$queryRaw`
 			SELECT
                 pemesanan.*,
-				ROUND(SUM((keranjang.jumlah*keranjang.harga)*((keranjang.diskon/100)+1))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
                 pemesanan,
 				keranjang

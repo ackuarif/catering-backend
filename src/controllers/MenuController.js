@@ -25,7 +25,7 @@ export const addMenu = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -99,7 +99,7 @@ export const updateMenu = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -174,7 +174,7 @@ export const deleteMenu = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -259,7 +259,7 @@ export const getMenuById = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 

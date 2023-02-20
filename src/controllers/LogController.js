@@ -12,7 +12,7 @@ export const addLog = async (req, res) => {
 		if (!ip_address){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 

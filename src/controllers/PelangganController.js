@@ -24,7 +24,7 @@ export const addPelanggan = async (req, res) => {
 		){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -60,6 +60,12 @@ export const addPelanggan = async (req, res) => {
 				password: hashPassword,
 				telepon,
 				alamat,
+			},
+			select: {
+				id: true,
+				user_id: true,
+				nama: true,
+				alamat: true,
 			},
 		});
 
@@ -100,7 +106,7 @@ export const updatePelanggan = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -136,6 +142,12 @@ export const updatePelanggan = async (req, res) => {
 				telepon,
 				alamat,
 			},
+			select: {
+				id: true,
+				user_id: true,
+				nama: true,
+				alamat: true,
+			},
 		});
 
 		return res.json({
@@ -159,7 +171,7 @@ export const deletePelanggan = async (req, res) => {
 		if (!id) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -187,6 +199,12 @@ export const deletePelanggan = async (req, res) => {
 			},
 			data: {
 				deleted_at: currentDate,
+			},
+			select: {
+				id: true,
+				user_id: true,
+				nama: true,
+				alamat: true,
 			},
 		});
 
@@ -218,7 +236,7 @@ export const updatePassword = async (req, res) => {
 		) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
@@ -260,15 +278,18 @@ export const login = async (req, res) => {
 		if (!user_id || !password) {
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, Parameter tidak lengkap."
+				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
 
 		// check user existence
-		const user = await prisma.pelanggan.findFirst({ where: { 
-            user_id,
-            deleted_at: null
-        }});
+		const user = await prisma.pelanggan.findFirst({ 
+			where: { 
+				user_id,
+				deleted_at: null
+        	},
+		});
+
 
 		if (!user) {
             return res.status(404).json({
@@ -297,6 +318,7 @@ export const login = async (req, res) => {
 				success: true,
 				message: "Berhasil login.", 
 				token, 
+				user,
 			});
 	} catch (error) {
 		return res.json({ error: error });

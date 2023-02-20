@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 export const getTotalByPemesananId = async (pemesanan_id) => {
 	try {
         if(!pemesanan_id){
-            throw 'Maaf, parameter tidak lengkap.';
+            throw 'Maaf, pengisian formulir tidak lengkap.';
         }
 		return await prisma.$queryRaw`
 			SELECT
-				ROUND(SUM((jumlah*harga)*((diskon/100)+1))) AS total 
+			ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
 				keranjang
 			WHERE
