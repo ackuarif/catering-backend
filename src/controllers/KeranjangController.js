@@ -151,10 +151,6 @@ export const getKeranjangByPemesananId = async (req, res) => {
 		}
 		id = parseInt(id);
 
-		const {
-			id: pelanggan_id
-		} = req.user;
-
 		const getKeranjangByPemesananId = await prisma.keranjang.findMany({
 			where: {
 				pemesanan_id: id,

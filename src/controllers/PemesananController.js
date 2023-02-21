@@ -187,20 +187,19 @@ export const addPembayaran = async (req, res) => {
 			});
 		}
 
-		tgl_bayar = minuteToDateTime(tgl_bayar);
 
 		const {
 			path,
 		} = req.file;
 
 		id = parseInt(id);
-        tgl_bayar = toDate(tgl_bayar);
+		tgl_bayar = minuteToDateTime(tgl_bayar);
 
 		const checkPembayaran = await prisma.pemesanan.findMany({
 			where: {
 				id,
 				NOT: {
-					tgl_bayar: null,
+					tgl_verif: null,
 				},
 			},
 		});
@@ -208,8 +207,8 @@ export const addPembayaran = async (req, res) => {
 		if(checkPembayaran.length > 0){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, pemesanan tersebut telah terbayar."
-			});			
+				message: "Maaf, pemesanan tersebut tersebut terverifikasi."
+			});
 		}
 
 		const uploadBuktiBayar = await cloudinary.uploader.upload(path);

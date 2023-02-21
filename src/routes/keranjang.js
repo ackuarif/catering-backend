@@ -9,3 +9,4 @@ routes.delete("/:id", Auth.pelangganIsAuthenticated, KeranjangController.deleteK
 routes.get("/", Auth.pelangganIsAuthenticated, KeranjangController.getKeranjangAll);
 routes.get("/getTotalKeranjangByPelanggan", Auth.pelangganIsAuthenticated, KeranjangController.getTotalKeranjangByPelanggan);
 routes.get("/getTotalByPemesananId/:id", Auth.pelangganIsAuthenticated, KeranjangController.getTotalByPemesananId);
+routes.get("/getKeranjangByPemesananId/:id", Auth.pelangganIsAuthenticated, KeranjangController.getKeranjangByPemesananId);

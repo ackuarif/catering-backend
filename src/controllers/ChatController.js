@@ -107,6 +107,12 @@ export const getChatByPemesananId = async (req, res) => {
 			},
 		});
 
+		if(getChatByPemesananId.length == 0)
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, data tidak ditemukan."
+			});
+
 		return res.json({
 			success: true,
 			message: "Sukses",
@@ -115,7 +121,7 @@ export const getChatByPemesananId = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };

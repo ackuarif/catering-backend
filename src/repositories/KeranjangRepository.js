@@ -9,7 +9,7 @@ export const getTotalByPemesananId = async (pemesanan_id) => {
         }
 		return await prisma.$queryRaw`
 			SELECT
-			ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
 				keranjang
 			WHERE
