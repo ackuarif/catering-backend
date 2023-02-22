@@ -1,0 +1,21 @@
+-- AlterTable
+ALTER TABLE "admin" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "chat" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "keranjang" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "logs" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "menu" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "pelanggan" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "pemesanan" ALTER COLUMN "tgl_pesan" SET DATA TYPE TIMESTAMP,
+ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP;

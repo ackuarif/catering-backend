@@ -16,6 +16,8 @@ dotenv.config();
 const app = express();
 const port = 8000;
 
+process.env.TZ = "Asia/Jakarta";
+
 app.use(cookieParser());
 app.use(
 	cors({

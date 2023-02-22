@@ -123,6 +123,9 @@ export const getPemesananAll = async (req, res) => {
 			where: {
 				pelanggan_id,
 			},
+			orderBy: [
+				{created_at: 'desc',},
+			],
 		});
 
 		if (getPemesananAll.length == 0) {

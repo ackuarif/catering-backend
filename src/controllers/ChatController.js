@@ -105,6 +105,9 @@ export const getChatByPemesananId = async (req, res) => {
 			where: {
 				pemesanan_id: id,
 			},
+			orderBy: [
+				{created_at: 'desc',},
+			],
 		});
 
 		if(getChatByPemesananId.length == 0)
