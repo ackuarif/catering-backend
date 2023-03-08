@@ -158,7 +158,7 @@ export const updatePelanggan = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -216,7 +216,7 @@ export const deletePelanggan = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -266,7 +266,7 @@ export const updatePassword = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };

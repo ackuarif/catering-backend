@@ -9,3 +9,4 @@ routes.post("/login", AdminController.login);
 routes.post("/logout", Auth.adminIsAuthenticated, AdminController.login);
 routes.put("/:id", Auth.adminIsAuthenticated, AdminController.updateAdmin);
 routes.delete("/:id", Auth.adminIsAuthenticated, AdminController.deleteAdmin);
+routes.get("/getSelfUser", Auth.adminIsAuthenticated, AdminController.getSelfUser);

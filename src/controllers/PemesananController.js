@@ -108,7 +108,7 @@ export const deletePemesanan = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -143,7 +143,7 @@ export const getPemesananAll = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -167,7 +167,7 @@ export const getById = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -234,7 +234,7 @@ export const addPembayaran = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -251,7 +251,7 @@ export const getPemesananVerif = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -302,7 +302,7 @@ export const verifPemesanan = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -319,7 +319,7 @@ export const getPemesananProses = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -371,7 +371,7 @@ export const selesaiPemesanan = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -388,7 +388,7 @@ export const getPemesananSelesai = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -405,7 +405,7 @@ export const laporanPendapatanByDate = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -422,7 +422,7 @@ export const getJmlPemesananToday = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };

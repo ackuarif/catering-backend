@@ -67,7 +67,7 @@ export const addAdmin = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -131,7 +131,7 @@ export const updateAdmin = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -183,7 +183,7 @@ export const deleteAdmin = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -233,7 +233,7 @@ export const updatePassword = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({
 			success: false,
-			message: error
+			message: JSON.stringify(error)
 		});
 	}
 };
@@ -278,7 +278,7 @@ export const login = async (req, res) => {
 		return res
 			.cookie("token", token)
             .status(200)
-			.json({ success: true, message: "Berhasil login." });
+			.json({ success: true, message: "Berhasil login.", token });
 	} catch (error) {
 		return res.json({ error: error });
 	}
@@ -287,4 +287,8 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
 	res.clearCookie("token");
 	return res.status(200).json({ success: true, message: "Berhasil logout." });
+};
+
+export const getSelfUser = (req, res) => {
+	return res.status(200).json({ success: true, message: "Berhasil logout.",data: req.user });
 };

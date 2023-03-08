@@ -21,7 +21,7 @@ process.env.TZ = "Asia/Jakarta";
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: ["http://localhost:3000"],
 		// origin: "http://192.168.1.4:3000",
 		credentials: true,
 	})

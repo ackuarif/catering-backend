@@ -17,7 +17,7 @@ export const pelangganIsAuthenticated = async (req, res, next) => {
 		if(authorization.split(' ')[0] == 'Bearer')
 			token = authorization.split(' ')[1];
 
-			if (!token || token == '')
+		if (!token || token == '')
 			return res.status(400).json({
 				success: false,
 				message: "Maaf, mohon login terlebih dahulu."
@@ -45,7 +45,7 @@ export const pelangganIsAuthenticated = async (req, res, next) => {
 export const adminIsAuthenticated = async (req, res, next) => {
 	try {
 		const { authorization } = req.headers;
-		let token;
+		let token = '';
 
 		if(!authorization)
 			return res.status(400).json({
@@ -56,22 +56,23 @@ export const adminIsAuthenticated = async (req, res, next) => {
 		if(authorization.split(' ')[0] == 'Bearer')
 			token = authorization.split(' ')[1];
 
-		if (!token) {
+		if (!token || token == '')
 			return res.status(400).json({
 				success: false,
 				message: "Maaf, mohon login terlebih dahulu."
 			});
-		}
 
 		const verify = jwt.verify(token, process.env.SECRET_KEY);
+
 		req.user = await prisma.admin.findFirst({ 
 			where: { user_id: verify.user_id }, 
 			select: {
+				id: true,
 				user_id: true,
 				nama: true,
-				alamat: true,
 			},
 		});
+
 		next();
 	} catch (error) {
 		return res.status(500).json({
