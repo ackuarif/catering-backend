@@ -3,6 +3,8 @@ import moment from "moment/moment";
 import { minuteToDateTime, toDate } from "../libs/datetime";
 import cloudinary from "../libs/cloudinary";
 import { 
+	getJmlPemesananCurrentMonthRepository,
+	getJmlPemesananPrevMonthRepository,
 	getJmlPemesananTodayRepository,
 	getPemesananProsesRepository, 
 	getPemesananSelesaiRepository, 
@@ -418,6 +420,40 @@ export const getJmlPemesananToday = async (req, res) => {
 			success: true,
 			message: "Sukses",
 			data: getJmlPemesananToday,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getJmlPemesananCurrentMonth = async (req, res) => {
+	try {
+		const getJmlPemesananCurrentMonth = await getJmlPemesananCurrentMonthRepository();
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getJmlPemesananCurrentMonth[0].jml,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getJmlPemesananPrevMonth = async (req, res) => {
+	try {
+		const getJmlPemesananPrevMonth = await getJmlPemesananPrevMonthRepository()
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getJmlPemesananPrevMonth[0].jml,
 		});
 	} catch (error) {
 		return res.status(500).json({

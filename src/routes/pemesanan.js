@@ -17,3 +17,5 @@ routes.get("/getPemesananSelesai", Auth.adminIsAuthenticated, PemesananControlle
 routes.get("/laporanPendapatanByDate", Auth.adminIsAuthenticated, PemesananController.laporanPendapatanByDate);
 routes.post("/verifPemesanan/:id", Auth.adminIsAuthenticated, PemesananController.verifPemesanan);
 routes.post("/selesaiPemesanan/:id", Auth.adminIsAuthenticated, PemesananController.selesaiPemesanan);
+routes.get("/getJmlPemesananCurrentMonth", Auth.adminIsAuthenticated, PemesananController.getJmlPemesananCurrentMonth);
+routes.get("/getJmlPemesananPrevMonth", Auth.adminIsAuthenticated, PemesananController.getJmlPemesananPrevMonth);

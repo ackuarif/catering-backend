@@ -101,13 +101,45 @@ export const getJmlPemesananTodayRepository = async () => {
 	try {
 		return await prisma.$queryRaw`
 			SELECT
-                COUNT(id) jml
+                ROUND(COUNT(id)) jml
 			FROM
                 pemesanan
 			WHERE
                 created_at::DATE = NOW()::DATE
-            GROUP BY
-                pemesanan.id
+		`;
+	} catch (error) {
+		throw error;
+	}	
+}
+
+export const getJmlPemesananCurrentMonthRepository = async () => {
+	try {
+		return await prisma.$queryRaw`
+			SELECT
+                ROUND(COUNT(id)) jml
+			FROM
+                pemesanan
+			WHERE
+				TO_CHAR(created_at, 'YYYY') = TO_CHAR(NOW(), 'YYYY')
+                AND TO_CHAR(created_at, 'MM') = TO_CHAR(NOW(), 'MM')
+				AND tgl_selesai IS NOT NULL
+		`;
+	} catch (error) {
+		throw error;
+	}	
+}
+
+export const getJmlPemesananPrevMonthRepository = async () => {
+	try {
+		return await prisma.$queryRaw`
+			SELECT
+                ROUND(COUNT(id)) jml
+			FROM
+                pemesanan
+			WHERE
+				TO_CHAR(created_at, 'YYYY') = TO_CHAR((NOW() - INTERVAL '1 month'), 'YYYY')
+                AND TO_CHAR(created_at, 'MM') = TO_CHAR((NOW() - INTERVAL '1 month'), 'MM')
+				AND tgl_selesai IS NOT NULL
 		`;
 	} catch (error) {
 		throw error;
