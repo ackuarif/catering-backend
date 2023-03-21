@@ -116,9 +116,9 @@ export const getJmlPemesananCurrentMonthRepository = async () => {
 	try {
 		return await prisma.$queryRaw`
 			SELECT
-                ROUND(COUNT(id)) jml
+				ROUND(COUNT(id)) jml
 			FROM
-                pemesanan
+				pemesanan
 			WHERE
 				TO_CHAR(created_at, 'YYYY') = TO_CHAR(NOW(), 'YYYY')
                 AND TO_CHAR(created_at, 'MM') = TO_CHAR(NOW(), 'MM')
