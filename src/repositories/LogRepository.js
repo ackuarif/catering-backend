@@ -7,7 +7,7 @@ export const getLogTodayRepository = async () => {
 	try {
 		return await prisma.$queryRaw`
             SELECT
-                COUNT(id) AS jml
+                ROUND(COUNT(id)) AS jml
             FROM
                 logs
             WHERE

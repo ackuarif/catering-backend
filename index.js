@@ -14,18 +14,20 @@ import {
 
 dotenv.config();
 const app = express();
-const port = 8000;
+const port = process.env.PORT;
 
 process.env.TZ = "Asia/Jakarta";
+
 
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: ["http://localhost:3000"],
-		// origin: "http://192.168.1.4:3000",
+		origin: [process.env.CORS_URL],
 		credentials: true,
 	})
 );
+
+app.set('trust proxy', true);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

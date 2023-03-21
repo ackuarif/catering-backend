@@ -330,6 +330,12 @@ export const logout = (req, res) => {
 	return res.status(200).json({ success: true, message: "Berhasil logout." });
 };
 
-export const getSelfUser = (req, res) => {
-	return res.status(200).json({ success: true, message: "Berhasil logout.",data: req.user });
+export const getSelfUser = async (req, res) => {
+	const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress ||  req.socket.remoteAddress || req.connection.socket.remoteAddress;
+	await prisma.logs.create({
+		data: {
+			ip_address,
+		}
+	});
+	return res.status(200).json({ success: true, message: "Berhasil login.",data: req.user });
 };
