@@ -20,7 +20,7 @@ async function main() {
     await prisma.menu.createMany({
       data: [
           {
-              admin_id: createAdmin.id,
+              admin_id: createAdmin[0].id,
               nama: 'Nasi Kuning',
               harga: 20000,
               diskon: 10,
@@ -28,7 +28,7 @@ async function main() {
               detail: 'Nasi kuning adalah makanan khas Indonesia. Makanan ini terbuat dari beras yang dimasak bersama dengan kunyit serta santan dan rempah-rempah. Dengan ditambahkannya bumbu-bumbu dan santan, nasi kuning memiliki rasa yang lebih gurih daripada nasi putih.',
           },
           {
-              admin_id: createAdmin.id,
+              admin_id: createAdmin[0].id,
               nama: 'Nasi Jagung',
               harga: 15000,
               diskon: 0,
