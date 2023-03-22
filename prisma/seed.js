@@ -6,21 +6,18 @@ async function main() {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash('admin', salt);
 
-    const createAdmin = await prisma.admin.createMany({
-      data: [
-          {
-              nama: 'Admin',
-              user_id: 'admin',
-              password: hashPassword,
-          }
-      ],
-      skipDuplicates: true,
+    const createAdmin = await prisma.admin.create({
+      data: {
+        nama: 'Admin',
+        user_id: 'admin',
+        password: hashPassword,
+      },
     });
 
     await prisma.menu.createMany({
       data: [
           {
-              admin_id: createAdmin[0].id,
+              admin_id: createAdmin.id,
               nama: 'Nasi Kuning',
               harga: 20000,
               diskon: 10,
@@ -28,7 +25,7 @@ async function main() {
               detail: 'Nasi kuning adalah makanan khas Indonesia. Makanan ini terbuat dari beras yang dimasak bersama dengan kunyit serta santan dan rempah-rempah. Dengan ditambahkannya bumbu-bumbu dan santan, nasi kuning memiliki rasa yang lebih gurih daripada nasi putih.',
           },
           {
-              admin_id: createAdmin[0].id,
+              admin_id: createAdmin.id,
               nama: 'Nasi Jagung',
               harga: 15000,
               diskon: 0,
