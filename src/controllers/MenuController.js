@@ -11,6 +11,7 @@ export const addMenu = async (req, res) => {
 			diskon,
 			gambar,
 			detail,
+			tersedia,
 		} = req.body;
 
 		const {
@@ -22,6 +23,7 @@ export const addMenu = async (req, res) => {
 			|| diskon == ''
 			|| gambar == ''
 			|| !detail
+			|| !tersedia
 		){
 			return res.status(400).json({
 				success: false,
@@ -60,6 +62,7 @@ export const addMenu = async (req, res) => {
 				diskon,
 				gambar: uploadGambar.secure_url,
 				detail,
+				tersedia,
 			},
 		});
 
@@ -85,6 +88,7 @@ export const updateMenu = async (req, res) => {
 			harga,
 			diskon,
 			detail,
+			tersedia,
 		} = req.body;
 
 		const {
@@ -96,6 +100,7 @@ export const updateMenu = async (req, res) => {
 			|| !harga 
 			|| diskon == '' 
 			|| !detail
+			|| !tersedia
 		){
 			return res.status(400).json({
 				success: false,
@@ -150,6 +155,7 @@ export const updateMenu = async (req, res) => {
 				diskon,
 				gambar,
 				detail,
+				tersedia,
 			},
 		});
 

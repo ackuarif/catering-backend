@@ -22,7 +22,7 @@ process.env.TZ = "Asia/Jakarta";
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: [process.env.CORS_URL, process.env.CORS_WWW_URL],
+		origin: [process.env.CORS_URL, process.env.CORS_URL_ADMIN, process.env.CORS_WWW_URL],
 		credentials: true,
 	})
 );
