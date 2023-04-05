@@ -109,7 +109,6 @@ export const updateMenu = async (req, res) => {
 		}
 
 		id = parseInt(id);
-		admin_id = parseInt(admin_id);
 		harga = parseInt(harga);
 		diskon = parseInt(diskon);
 
@@ -128,6 +127,7 @@ export const updateMenu = async (req, res) => {
 			  deleted_at: null
 			},
 		});
+
 
 		if(checkData.length > 0){
 			return res.status(201).json({
