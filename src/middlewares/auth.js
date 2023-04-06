@@ -72,7 +72,7 @@ export const adminIsAuthenticated = async (req, res, next) => {
 				nama: true,
 			},
 		});
-
+		
 		next();
 	} catch (error) {
 		return res.status(500).json({

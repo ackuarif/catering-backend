@@ -290,5 +290,73 @@ export const logout = (req, res) => {
 };
 
 export const getSelfUser = (req, res) => {
-	return res.status(200).json({ success: true, message: "Berhasil logout.",data: req.user });
+	return res.status(200).json({ success: true, message: "Sukses.",data: req.user });
+};
+
+export const getAdminAll = async (req, res) => {
+	try {
+		const getAdminAll = await prisma.admin.findMany({
+			where: {
+				deleted_at: null,
+			},
+		});
+
+		// const getMenuAll = [];
+
+		if(!getAdminAll.length)
+			return res.json({
+				success: false,
+				message: "Data tidak ada.",
+			});
+
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getAdminAll
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getAdminById = async (req, res) => {
+	try {
+		let { id } = req.params;
+		id = parseInt(id);
+
+		if (!id) {
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pengisian formulir tidak lengkap."
+			});
+		}
+
+		const getAdminById = await prisma.admin.findFirst({
+			where: {
+				id,
+				deleted_at: null,
+			},
+		});
+
+		if(!getAdminById)
+			return res.json({
+				success: false,
+				message: "Data tidak ada.",
+			});
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getAdminById
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
 };
