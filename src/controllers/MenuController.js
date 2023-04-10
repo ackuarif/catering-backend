@@ -21,7 +21,7 @@ export const addMenu = async (req, res) => {
 		if (!nama 
 			|| !harga
 			|| diskon == ''
-			|| (gambar == '' || gambar == null)
+			|| gambar == ''
 			|| !detail
 			|| !tersedia
 		){
