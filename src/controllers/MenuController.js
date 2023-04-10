@@ -24,6 +24,7 @@ export const addMenu = async (req, res) => {
 			|| gambar == ''
 			|| !detail
 			|| !tersedia
+			|| !req.file
 		){
 			return res.status(400).json({
 				success: false,
