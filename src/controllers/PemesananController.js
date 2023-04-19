@@ -6,6 +6,7 @@ import {
 	getJmlPemesananCurrentMonthRepository,
 	getJmlPemesananPrevMonthRepository,
 	getJmlPemesananTodayRepository,
+	getPemesananHeaderByIdRepository,
 	getPemesananProsesRepository, 
 	getPemesananSelesaiRepository, 
 	getPemesananVerifRepository, 
@@ -271,17 +272,16 @@ export const verifPemesanan = async (req, res) => {
 
 		id = parseInt(id);
 
-		const checkData = await prisma.pemesanan.findMany({
+		const checkData = await prisma.pemesanan.findFirst({
 			where: {
-				id,
-				tgl_bayar: null
+				id
 			},
 		});
 
-		if(checkData.length > 0){
+		if(checkData.tgl_verif){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, pemesanan tersebut belum terbayar."
+				message: "Maaf, pemesanan tersebut telah diverifikasi."
 			});			
 		}
 
@@ -340,17 +340,23 @@ export const selesaiPemesanan = async (req, res) => {
 
 		id = parseInt(id);
 
-		const checkData = await prisma.pemesanan.findMany({
+		const checkData = await prisma.pemesanan.findFirst({
 			where: {
-				id,
-				tgl_verif: null
+				id
 			},
 		});
 
-		if(checkData.length > 0){
+		if(!checkData.tgl_verif){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, pemesanan tersebut belum terverifikasi."
+				message: "Maaf, pemesanan tersebut belum diverifikasi."
+			});			
+		}
+
+		if(checkData.tgl_selesai){
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pemesanan tersebut telah selesai."
 			});			
 		}
 
@@ -454,6 +460,24 @@ export const getJmlPemesananPrevMonth = async (req, res) => {
 			success: true,
 			message: "Sukses",
 			data: getJmlPemesananPrevMonth[0].jml,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getPemesananHeaderById = async (req, res) => {
+	try {
+		let { id } = req.params;
+		const getPemesananHeaderById = await getPemesananHeaderByIdRepository(id);
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getPemesananHeaderById,
 		});
 	} catch (error) {
 		return res.status(500).json({
