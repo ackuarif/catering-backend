@@ -40,20 +40,32 @@ export const getPemesananVerifRepository = async () => {
 
 export const getPemesananProsesRepository = async () => {
 	try {
-		return await prisma.$queryRaw`
+		const getDatas = await prisma.$queryRaw`
 			SELECT
                 pemesanan.*,
+                pelanggan.nama,
+                pelanggan.alamat,
+                pelanggan.telepon,
 				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
                 pemesanan,
-				keranjang
+				keranjang,
+				pelanggan
 			WHERE
                 pemesanan.id = keranjang.pemesanan_id
-                AND pemesanan.tgl_selesai IS NULL
+                AND pemesanan.pelanggan_id = pelanggan.id
                 AND pemesanan.tgl_verif IS NOT NULL
+                AND pemesanan.tgl_selesai IS NULL
             GROUP BY
-                pemesanan.id
+                pemesanan.id,
+                pelanggan.id
 		`;
+
+		getDatas.map((data) => {
+			data.tgl_pesan = moment(data.tgl_pesan).format("YYYY-MM-DD HH:mm:ss")
+		})
+
+		return getDatas;
 	} catch (error) {
 		throw error;
 	}	
@@ -61,19 +73,31 @@ export const getPemesananProsesRepository = async () => {
 
 export const getPemesananSelesaiRepository = async () => {
 	try {
-		return await prisma.$queryRaw`
+		const getDatas = await prisma.$queryRaw`
 			SELECT
                 pemesanan.*,
+                pelanggan.nama,
+                pelanggan.alamat,
+                pelanggan.telepon,
 				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
                 pemesanan,
-				keranjang
+				keranjang,
+				pelanggan
 			WHERE
                 pemesanan.id = keranjang.pemesanan_id
+                AND pemesanan.pelanggan_id = pelanggan.id
                 AND pemesanan.tgl_selesai IS NOT NULL
             GROUP BY
-                pemesanan.id
+                pemesanan.id,
+                pelanggan.id
 		`;
+
+		getDatas.map((data) => {
+			data.tgl_pesan = moment(data.tgl_pesan).format("YYYY-MM-DD HH:mm:ss")
+		})
+
+		return getDatas;
 	} catch (error) {
 		throw error;
 	}	
