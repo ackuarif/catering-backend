@@ -14,7 +14,7 @@ routes.post("/addPembayaran", [Auth.pelangganIsAuthenticated, multer.single("buk
 routes.get("/getPemesananVerif", Auth.adminIsAuthenticated, PemesananController.getPemesananVerif);
 routes.get("/getPemesananProses", Auth.adminIsAuthenticated, PemesananController.getPemesananProses);
 routes.get("/getPemesananSelesai", Auth.adminIsAuthenticated, PemesananController.getPemesananSelesai);
-routes.get("/laporanPendapatanByDate", Auth.adminIsAuthenticated, PemesananController.laporanPendapatanByDate);
+routes.post("/laporanPendapatanByDate", Auth.adminIsAuthenticated, PemesananController.laporanPendapatanByDate);
 routes.post("/verifPemesanan/:id", Auth.adminIsAuthenticated, PemesananController.verifPemesanan);
 routes.post("/selesaiPemesanan/:id", Auth.adminIsAuthenticated, PemesananController.selesaiPemesanan);
 routes.get("/getJmlPemesananCurrentMonth", Auth.adminIsAuthenticated, PemesananController.getJmlPemesananCurrentMonth);

@@ -104,32 +104,42 @@ export const getPemesananSelesaiRepository = async () => {
 }
 
 export const laporanPendapatanByDateRepository = async (req) => {
-    let {
-        tgl_dari,
-        tgl_sampai,
-    } = req;
-
-    if (!tgl_dari
-        || !tgl_sampai
-    ){
-        throw "Maaf, pengisian formulir tidak lengkap.";
-    }
-
 	try {
-		return await prisma.$queryRaw`
+		let {
+			tgl_dari,
+			tgl_sampai,
+		} = req;
+	
+		if (!tgl_dari
+			|| !tgl_sampai
+		){
+			throw "Maaf, pengisian formulir tidak lengkap.";
+		}
+
+		const getDatas = await prisma.$queryRaw`
 			SELECT
                 pemesanan.*,
+				pelanggan.*,
 				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
 			FROM
                 pemesanan,
-				keranjang
+				keranjang,
+				pelanggan
 			WHERE
                 pemesanan.id = keranjang.pemesanan_id
+                AND pemesanan.pelanggan_id = pelanggan.id
                 AND tgl_verif IS NOT NULL
                 AND pemesanan.tgl_bayar::DATE BETWEEN ${tgl_dari}::DATE AND ${tgl_sampai}::DATE
             GROUP BY
-                pemesanan.id
+                pemesanan.id,
+                pelanggan.id
 		`;
+
+		getDatas.map((data) => {
+			data.tgl_bayar = moment(data.tgl_bayar).format("YYYY-MM-DD HH:mm:ss")
+		})
+
+		return getDatas;
 	} catch (error) {
 		throw error;
 	}	
