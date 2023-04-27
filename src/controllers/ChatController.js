@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { getChatBalasRepository } from "../repositories/ChatRepository";
+import moment from "moment/moment";
 
 const prisma = new PrismaClient();
 
@@ -77,6 +78,15 @@ export const addChatAdmin = async (req, res) => {
             }
         });
 
+		const updateStatus = await prisma.chat.updateMany({
+			where: {
+				pemesanan_id,
+			},
+			data: {
+				status: '1',
+			},
+		});
+
 		return res.json({
 			success: true,
 			message: "Chat berhasil disimpan.",
@@ -115,6 +125,10 @@ export const getChatByPemesananId = async (req, res) => {
 				success: false,
 				message: "Maaf, data tidak ditemukan."
 			});
+
+		getChatByPemesananId.map((data) => {
+			data.created_at = moment(data.created_at).format("YYYY-MM-DD HH:mm:ss")
+		})
 
 		return res.json({
 			success: true,

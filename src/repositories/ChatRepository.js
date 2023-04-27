@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
+import moment from "moment/moment";
 import { toDate, toDateOnly } from "../libs/datetime";
 
 const prisma = new PrismaClient();
 
 export const getChatBalasRepository = async () => {
 	try {
-		return await prisma.$queryRaw`
+		const getDatas = await prisma.$queryRaw`
             SELECT 
                 id,
                 pemesanan_id,
@@ -39,6 +40,12 @@ export const getChatBalasRepository = async () => {
                 status,
                 no_pesan
 		`;
+
+        getDatas.map((data) => {
+			data.created_at = moment(data.created_at).format("YYYY-MM-DD HH:mm:ss")
+		})
+
+		return getDatas;
 	} catch (error) {
 		throw error;
 	}	
