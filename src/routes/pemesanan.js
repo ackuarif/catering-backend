@@ -20,3 +20,4 @@ routes.post("/selesaiPemesanan/:id", Auth.adminIsAuthenticated, PemesananControl
 routes.get("/getJmlPemesananCurrentMonth", Auth.adminIsAuthenticated, PemesananController.getJmlPemesananCurrentMonth);
 routes.get("/getJmlPemesananPrevMonth", Auth.adminIsAuthenticated, PemesananController.getJmlPemesananPrevMonth);
 routes.get("/getPemesananHeaderById/:id", Auth.adminIsAuthenticated, PemesananController.getPemesananHeaderById);
+routes.get("/getJmlPemesananPerMonth", Auth.adminIsAuthenticated, PemesananController.getJmlPemesananPerMonth);

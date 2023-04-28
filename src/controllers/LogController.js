@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { getLogTodayRepository } from "../repositories/LogRepository";
+import { getJmlKunjunganPerMonthRepository, getLogTodayRepository } from "../repositories/LogRepository";
 
 const prisma = new PrismaClient();
 
@@ -42,6 +42,23 @@ export const getLogToday = async (req, res) => {
 			success: true,
 			message: "Log berhasil disimpan.",
 			data: getLogToday,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getJmlKunjunganPerMonth = async (req, res) => {
+	try {
+		const getJmlKunjunganPerMonth = await getJmlKunjunganPerMonthRepository()
+
+		return res.json({
+			success: true,
+			message: "Sukses.",
+			data: getJmlKunjunganPerMonth,
 		});
 	} catch (error) {
 		return res.status(500).json({

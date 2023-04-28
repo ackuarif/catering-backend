@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { query } from "express";
 import moment from "moment/moment";
-import { toDate, toDateOnly } from "../libs/datetime";
+import { getMonth } from "../libs/datetime";
 
 const prisma = new PrismaClient();
 
@@ -128,8 +128,7 @@ export const laporanPendapatanByDateRepository = async (req) => {
 			WHERE
                 pemesanan.id = keranjang.pemesanan_id
                 AND pemesanan.pelanggan_id = pelanggan.id
-                AND tgl_verif IS NOT NULL
-                AND pemesanan.tgl_bayar::DATE BETWEEN ${tgl_dari}::DATE AND ${tgl_sampai}::DATE
+                AND pemesanan.tgl_selesai::DATE BETWEEN ${tgl_dari}::DATE AND ${tgl_sampai}::DATE
             GROUP BY
                 pemesanan.id,
                 pelanggan.id
@@ -168,8 +167,8 @@ export const getJmlPemesananCurrentMonthRepository = async () => {
 			FROM
 				pemesanan
 			WHERE
-				TO_CHAR(created_at, 'YYYY') = TO_CHAR(NOW(), 'YYYY')
-                AND TO_CHAR(created_at, 'MM') = TO_CHAR(NOW(), 'MM')
+				TO_CHAR(tgl_selesai, 'YYYY') = TO_CHAR(NOW(), 'YYYY')
+                AND TO_CHAR(tgl_selesai, 'MM') = TO_CHAR(NOW(), 'MM')
 				AND tgl_selesai IS NOT NULL
 		`;
 	} catch (error) {
@@ -185,8 +184,8 @@ export const getJmlPemesananPrevMonthRepository = async () => {
 			FROM
                 pemesanan
 			WHERE
-				TO_CHAR(created_at, 'YYYY') = TO_CHAR((NOW() - INTERVAL '1 month'), 'YYYY')
-                AND TO_CHAR(created_at, 'MM') = TO_CHAR((NOW() - INTERVAL '1 month'), 'MM')
+				TO_CHAR(tgl_selesai, 'YYYY') = TO_CHAR((NOW() - INTERVAL '1 month'), 'YYYY')
+                AND TO_CHAR(tgl_selesai, 'MM') = TO_CHAR((NOW() - INTERVAL '1 month'), 'MM')
 				AND tgl_selesai IS NOT NULL
 		`;
 	} catch (error) {
@@ -227,6 +226,31 @@ export const getPemesananHeaderByIdRepository = async (id) => {
 			data.tgl_bayar = moment(data.tgl_bayar).format("YYYY-MM-DD HH:mm:ss")
 			data.tgl_verif = moment(data.tgl_verif).format("YYYY-MM-DD HH:mm:ss")
 			data.tgl_selesai = moment(data.tgl_selesai).format("YYYY-MM-DD HH:mm:ss")
+		})
+
+		return getDatas;
+	} catch (error) {
+		throw error;
+	}	
+}
+
+export const getJmlPemesananPerMonthRepository = async () => {
+	try {
+		const getDatas = await prisma.$queryRaw`
+			SELECT
+				TO_CHAR(tgl_selesai, 'MM') bulan,
+				ROUND(COUNT(id)) jml
+			FROM
+				pemesanan
+			WHERE
+				TO_CHAR(tgl_selesai, 'YYYY') = TO_CHAR(NOW(), 'YYYY')
+				AND tgl_selesai IS NOT NULL
+			GROUP BY
+				TO_CHAR(tgl_selesai, 'MM')
+		`;
+
+		getDatas.map((data) => {
+			data.bulan = getMonth(data.bulan)
 		})
 
 		return getDatas;

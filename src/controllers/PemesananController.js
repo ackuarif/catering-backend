@@ -4,6 +4,7 @@ import { minuteToDateTime, toDate } from "../libs/datetime";
 import cloudinary from "../libs/cloudinary";
 import { 
 	getJmlPemesananCurrentMonthRepository,
+	getJmlPemesananPerMonthRepository,
 	getJmlPemesananPrevMonthRepository,
 	getJmlPemesananTodayRepository,
 	getPemesananHeaderByIdRepository,
@@ -478,6 +479,23 @@ export const getPemesananHeaderById = async (req, res) => {
 			success: true,
 			message: "Sukses",
 			data: getPemesananHeaderById,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getJmlPemesananPerMonth = async (req, res) => {
+	try {
+		const getJmlPemesananPerMonth = await getJmlPemesananPerMonthRepository();
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getJmlPemesananPerMonth,
 		});
 	} catch (error) {
 		return res.status(500).json({
