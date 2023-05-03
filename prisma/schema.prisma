@@ -14,7 +14,6 @@ model admin {
   password    String
   created_at  DateTime  @default(now()) @db.Timestamptz
   deleted_at  DateTime?
-  menus       menu[]
 }
 
 model pelanggan {
@@ -40,7 +39,6 @@ model menu {
   tersedia    String?
   created_at  DateTime  @default(now()) @db.Timestamptz
   deleted_at  DateTime?
-  admin       admin     @relation(fields: [admin_id], references: [id])
   keranjangs  keranjang[]
 }
 
@@ -87,4 +85,10 @@ model logs {
   id            Int       @id @default(autoincrement())
   ip_address    String
   created_at    DateTime  @default(now()) @db.Timestamptz
+}
+
+model setting {
+  id              Int       @id @default(autoincrement())
+  info_pembayaran String
+  created_at      DateTime  @default(now()) @db.Timestamptz
 }

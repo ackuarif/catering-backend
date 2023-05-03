@@ -5,3 +5,4 @@ export { routes as KeranjangRoutes } from "./keranjang";
 export { routes as PemesananRoutes } from "./pemesanan";
 export { routes as ChatRoutes } from "./chat";
 export { routes as LogRoutes } from "./log";
+export { routes as SettingRoutes } from "./setting";
