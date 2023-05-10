@@ -299,7 +299,7 @@ export const verifPemesanan = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Pembayaran berhasil disimpan.",
+			message: "Verifikasi berhasil disimpan.",
 			data: verifPemesanan,
 		});
 	} catch (error) {
@@ -374,7 +374,7 @@ export const selesaiPemesanan = async (req, res) => {
 
 		return res.json({
 			success: true,
-			message: "Pembayaran berhasil disimpan.",
+			message: "Penyelesaian berhasil disimpan.",
 			data: selesaiPemesanan,
 		});
 	} catch (error) {
