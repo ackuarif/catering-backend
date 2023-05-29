@@ -8,16 +8,10 @@ export const getChatBalasRepository = async () => {
 	try {
 		const getDatas = await prisma.$queryRaw`
             SELECT 
-                id,
-                pemesanan_id,
-                nama,
-                chat,
-                created_at,
-                user_type,
-                status,
-                no_pesan
+                *
             FROM (
                 SELECT
+                    distinct on (chat.pemesanan_id) chat.pemesanan_id,
                     chat.*,
                     pemesanan.no_pesan
                 FROM
@@ -27,18 +21,9 @@ export const getChatBalasRepository = async () => {
                     chat.pemesanan_id = pemesanan.id
                     AND chat.status IS NULL
                 ORDER BY
-                    pemesanan.id,
-                    chat.created_at
-            ) chat_pemesanan
-            GROUP BY 
-                id,
-                pemesanan_id,
-                nama,
-                chat,
-                created_at,
-                user_type,
-                status,
-                no_pesan
+                    chat.pemesanan_id desc,
+                    chat.created_at desc
+            ) chat_pemesanan order by created_at desc
 		`;
 
         getDatas.map((data) => {

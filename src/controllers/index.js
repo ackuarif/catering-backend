@@ -5,3 +5,4 @@ export * as KeranjangController from "./KeranjangController";
 export * as PemesananController from "./PemesananController";
 export * as ChatController from "./ChatController";
 export * as LogController from "./LogController";
+export * as KomplainController from "./KomplainController";

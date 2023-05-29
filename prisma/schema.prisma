@@ -92,3 +92,22 @@ model setting {
   info_pembayaran String
   created_at      DateTime  @default(now()) @db.Timestamptz
 }
+
+model komplain {
+  id            Int       @id @default(autoincrement())
+  user_id       Int?
+  nama          String?
+  user_type     String    @default("Pelanggan")
+  ket           String
+  status        String?
+  created_at    DateTime  @default(now()) @db.Timestamptz
+}
+
+model testimoni {
+  id            Int       @id @default(autoincrement())
+  pemesanan_id  Int
+  menu_id       Int
+  rating        Int
+  ket           String
+  created_at    DateTime  @default(now()) @db.Timestamptz
+}
