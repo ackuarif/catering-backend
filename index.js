@@ -12,6 +12,7 @@ import {
 	LogRoutes,
 	SettingRoutes,
 	KomplainRoutes,
+	TestimoniRoutes,
 } from "./src/routes";
 
 dotenv.config();
@@ -42,6 +43,7 @@ app.use("/api/chat", ChatRoutes);
 app.use("/api/log", LogRoutes);
 app.use("/api/setting", SettingRoutes);
 app.use("/api/komplain", KomplainRoutes);
+app.use("/api/testimoni", TestimoniRoutes);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);

@@ -21,7 +21,7 @@ model pelanggan {
   nama        String
   user_id     String
   password    String
-  telepon     Int
+  telepon     String
   alamat      String
   created_at  DateTime  @default(now()) @db.Timestamptz
   deleted_at  DateTime?
@@ -40,6 +40,7 @@ model menu {
   created_at  DateTime  @default(now()) @db.Timestamptz
   deleted_at  DateTime?
   keranjangs  keranjang[]
+  testimonis  testimoni[]
 }
 
 model pemesanan {
@@ -108,6 +109,8 @@ model testimoni {
   pemesanan_id  Int
   menu_id       Int
   rating        Int
-  ket           String
+  nama          String
+  ket           String?
   created_at    DateTime  @default(now()) @db.Timestamptz
+  menu          menu @relation(fields: [menu_id], references: [id])
 }

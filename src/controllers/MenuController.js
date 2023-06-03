@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import cloudinary from "../libs/cloudinary";
+import { getAvgRatingByMenuIdRepository } from "../repositories/TestimoniRepository";
 
 const prisma = new PrismaClient();
 
@@ -241,9 +242,11 @@ export const getMenuAll = async (req, res) => {
 				message: "Data tidak ada.",
 			});
 
-		getMenuAll.forEach((elm) => {
+		for(const elm of getMenuAll) {
 			elm.detail = elm.detail.substr(0,100)+"...";
-		});
+			const getAvgRatingByMenuId = await getAvgRatingByMenuIdRepository(elm.id);
+			elm.rating = getAvgRatingByMenuId ? getAvgRatingByMenuId[0].rating : 0;
+		};
 
 		return res.json({
 			success: true,
@@ -282,6 +285,9 @@ export const getMenuById = async (req, res) => {
 				success: false,
 				message: "Data tidak ada.",
 			});
+
+		const getAvgRatingByMenuId = await getAvgRatingByMenuIdRepository(getMenuById.id);
+		getMenuById.rating = getAvgRatingByMenuId ? getAvgRatingByMenuId[0].rating : 0;
 
 		return res.json({
 			success: true,

@@ -28,8 +28,6 @@ export const addPelanggan = async (req, res) => {
 			});
 		}
 
-		telepon = parseInt(telepon);
-
 		if (password != password_confirm) {
 			return res.status(400).json({
 				success: false,
@@ -66,6 +64,7 @@ export const addPelanggan = async (req, res) => {
 				user_id: true,
 				nama: true,
 				alamat: true,
+				telepon: true,
 			},
 		});
 
@@ -89,18 +88,18 @@ export const addPelanggan = async (req, res) => {
 
 export const updatePelanggan = async (req, res) => {
 	try {
-		const { 
-			nama,
+		let { 
 			user_id,
+			nama,
 			telepon,
 			alamat
 		} = req.body;
-		let { id } = req.params;
-		id = parseInt(id);
 
-		if (!id 
-			|| !nama 
-			|| !user_id 
+		const {
+			id,
+		} = req.user;
+
+		if (!nama 
 			|| !telepon 
 			|| !alamat
 		) {
@@ -147,6 +146,7 @@ export const updatePelanggan = async (req, res) => {
 				user_id: true,
 				nama: true,
 				alamat: true,
+				telepon: true,
 			},
 		});
 
@@ -227,8 +227,10 @@ export const updatePassword = async (req, res) => {
 			password,
 			password_confirm,
 		} = req.body;
-		let { id } = req.params;
-		id = parseInt(id);
+
+		const {
+			id,
+		} = req.user;
 
 		if (!id 
 			|| !password 
