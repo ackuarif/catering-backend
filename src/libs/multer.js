@@ -2,5 +2,5 @@ import multer, { diskStorage } from 'multer';
 
 export default multer({
   storage: diskStorage({}),
-  limits: { fileSize: 10485760 }
+  limits: { fileSize: 5242880 }
 });
