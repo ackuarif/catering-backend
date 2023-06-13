@@ -14,17 +14,67 @@ async function main() {
 			},
 		});  
 
+    await prisma.logs.deleteMany({
+			where: {
+				NOT: {
+					id: 0,
+				},
+			},
+		});  
+
+    await prisma.chat.deleteMany({
+			where: {
+        NOT: {
+					id: 0,
+				},
+			},
+		});
+
+    await prisma.pemesanan.deleteMany({
+			where: {
+        NOT: {
+					id: 0,
+				},
+			},
+		});
+
+    await prisma.keranjang.deleteMany({
+			where: {
+        NOT: {
+					id: 0,
+				},
+			},
+		});
+
+		await prisma.menu.deleteMany({
+			where: {
+        NOT: {
+					id: 0,
+				},
+			},
+		}); 
+
+    await prisma.admin.deleteMany({
+			where: {
+        NOT: {
+					id: 0,
+				},
+			},
+		});
+    
+    await prisma.pelanggan.deleteMany({
+			where: {
+        NOT: {
+					id: 0,
+				},
+			},
+		});
+
     const createSetting = await prisma.setting.create({
       data: {
         info_pembayaran: '',
       },
     });
-
-		await prisma.admin.deleteMany({
-			where: {
-        user_id: 'admin',
-			},
-		});  
 
     const createAdmin = await prisma.admin.create({
       data: {
@@ -33,6 +83,14 @@ async function main() {
         password: hashPassword,
       },
     });
+
+    await prisma.wilayah.deleteMany({
+			where: {
+        NOT: {
+					id: 0,
+				},
+			},
+		});    
 
     await prisma.menu.createMany({
       data: [
@@ -53,7 +111,40 @@ async function main() {
               detail: 'Nasi jagung adalah suatu makanan khas Indonesia yang terbuat dari jagung sebagai bahan dasarnya. Jagung yang digunakan dalam membuat nasi jagung adalah jagung yang sudah tua atau dikenal dengan istilah jagung pipil.',
           },
       ],
-      skipDuplicates: true,
+    });  
+
+    await prisma.wilayah.createMany({
+      data: [
+        { nama: 'SUKAPURA',},
+        { nama: 'SUMBER',},
+        { nama: 'KURIPAN',},
+        { nama: 'BANTARAN',},
+        { nama: 'LECES',},
+        { nama: 'TEGALSIWALAN',},
+        { nama: 'BANYUANYAR',},
+        { nama: 'TIRIS',},
+        { nama: 'KRUCIL',},
+        { nama: 'GADING',},
+        { nama: 'PAKUNIRAN',},
+        { nama: 'KOTAANYAR',},
+        { nama: 'PAITON',},
+        { nama: 'BESUK',},
+        { nama: 'KRAKSAAN',},
+        { nama: 'KREJENGAN',},
+        { nama: 'PAJARAKAN',},
+        { nama: 'MARON',},
+        { nama: 'GENDING',},
+        { nama: 'DRINGU',},
+        { nama: 'WONOMERTO',},
+        { nama: 'LUMBANG',},
+        { nama: 'TONGAS',},
+        { nama: 'SUMBERASIH',},
+        { nama: 'KADEMANGAN',},
+        { nama: 'KEDOPOK',},
+        { nama: 'WONOASIH',},
+        { nama: 'MAYANGAN',},
+        { nama: 'KANIGARAN',},
+      ],
     });
 }
 

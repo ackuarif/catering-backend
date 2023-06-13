@@ -31,6 +31,7 @@ export const pelangganIsAuthenticated = async (req, res, next) => {
 				user_id: true,
 				nama: true,
 				alamat: true,
+				wilayah_id: true,
 				telepon: true,
 			},
 		});

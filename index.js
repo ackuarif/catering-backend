@@ -13,6 +13,7 @@ import {
 	SettingRoutes,
 	KomplainRoutes,
 	TestimoniRoutes,
+	WilayahRoutes,
 } from "./src/routes";
 
 dotenv.config();
@@ -32,7 +33,7 @@ app.use(
 app.set('trust proxy', true);
 
 app.use(express.json({ limit: '50mb', extended: true }));
-app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use("/api/admin", AdminRoutes);
 app.use("/api/pelanggan", PelangganRoutes);
 app.use("/api/menu", MenuRoutes);
@@ -43,6 +44,7 @@ app.use("/api/log", LogRoutes);
 app.use("/api/setting", SettingRoutes);
 app.use("/api/komplain", KomplainRoutes);
 app.use("/api/testimoni", TestimoniRoutes);
+app.use("/api/wilayah", WilayahRoutes);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);

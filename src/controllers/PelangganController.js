@@ -12,6 +12,7 @@ export const addPelanggan = async (req, res) => {
 			password,
 			password_confirm,
 			telepon,
+			wilayah_id,
 			alamat 
 		} = req.body;
 
@@ -19,7 +20,8 @@ export const addPelanggan = async (req, res) => {
 			|| !user_id 
 			|| !password 
 			|| !password_confirm 
-			|| !telepon 
+			|| !telepon
+			|| !wilayah_id
 			|| !alamat
 		){
 			return res.status(400).json({
@@ -27,6 +29,8 @@ export const addPelanggan = async (req, res) => {
 				message: "Maaf, pengisian formulir tidak lengkap."
 			});
 		}
+
+		wilayah_id = parseInt(wilayah_id)
 
 		if (password != password_confirm) {
 			return res.status(400).json({
@@ -50,12 +54,14 @@ export const addPelanggan = async (req, res) => {
 
 		const salt = await bcrypt.genSalt(10);
 		const hashPassword = await bcrypt.hash(password, salt);
-		
+
 		const addPelanggan = await prisma.pelanggan.create({
 			data: {
 				nama,
 				user_id,
 				password: hashPassword,
+				telepon,
+				wilayah_id,
 				telepon,
 				alamat,
 			},
@@ -63,8 +69,9 @@ export const addPelanggan = async (req, res) => {
 				id: true,
 				user_id: true,
 				nama: true,
-				alamat: true,
 				telepon: true,
+				wilayah_id: true,
+				alamat: true,
 			},
 		});
 
@@ -92,6 +99,7 @@ export const updatePelanggan = async (req, res) => {
 			user_id,
 			nama,
 			telepon,
+			wilayah_id,
 			alamat
 		} = req.body;
 
@@ -100,7 +108,8 @@ export const updatePelanggan = async (req, res) => {
 		} = req.user;
 
 		if (!nama 
-			|| !telepon 
+			|| !telepon
+			|| !wilayah_id
 			|| !alamat
 		) {
 			return res.status(400).json({
@@ -109,6 +118,8 @@ export const updatePelanggan = async (req, res) => {
 			});
 		}
 
+		wilayah_id = parseInt(wilayah_id)
+		
 		const getPelangganById = await prisma.pelanggan.findUnique({
 			where: {
 			  id,
@@ -139,14 +150,16 @@ export const updatePelanggan = async (req, res) => {
 				nama,
 				user_id,
 				telepon,
+				wilayah_id,
 				alamat,
 			},
 			select: {
 				id: true,
 				user_id: true,
 				nama: true,
-				alamat: true,
 				telepon: true,
+				wilayah_id: true,
+				alamat: true,
 			},
 		});
 

@@ -23,9 +23,11 @@ model pelanggan {
   password    String
   telepon     String
   alamat      String
+  wilayah_id  Int
   created_at  DateTime  @default(now()) @db.Timestamptz
   deleted_at  DateTime?
   pemesanans  pemesanan[]
+  wilayah   wilayah @relation(fields: [wilayah_id], references: [id])
 }
 
 model menu {
@@ -52,6 +54,7 @@ model pemesanan {
   tgl_bayar     DateTime?
   tgl_verif     DateTime?
   tgl_selesai   DateTime?
+  ongkir        Int       @default(0)
   ket           String?
   bukti_bayar   String?
   created_at    DateTime  @default(now()) @db.Timestamptz
@@ -113,4 +116,13 @@ model testimoni {
   ket           String?
   created_at    DateTime  @default(now()) @db.Timestamptz
   menu          menu @relation(fields: [menu_id], references: [id])
+}
+
+model wilayah {
+  id          Int       @id @default(autoincrement())
+  nama        String
+  ongkir      Int?      @default(0)
+  created_at  DateTime  @default(now()) @db.Timestamptz
+  deleted_at  DateTime?
+  pelanggans  pelanggan[]
 }

@@ -181,12 +181,18 @@ export const getTotalKeranjangByPelanggan = async (req, res) => {
 
 		const getTotalKeranjangByPelanggan = await prisma.$queryRaw`
 			SELECT
-				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((keranjang.jumlah*keranjang.harga)-((keranjang.jumlah*keranjang.harga)*(keranjang.diskon::NUMERIC/100)))) AS catering, 
+				ROUND(MIN(wilayah.ongkir)) AS ongkir, 
+				ROUND(SUM((keranjang.jumlah*keranjang.harga)-((keranjang.jumlah*keranjang.harga)*(keranjang.diskon::NUMERIC/100)))+MIN(wilayah.ongkir)) AS total 
 			FROM
-				keranjang
+				keranjang,
+				pelanggan,
+				wilayah
 			WHERE
-				pelanggan_id = ${pelanggan_id}
-				AND pemesanan_id is null
+				keranjang.pelanggan_id = ${pelanggan_id}
+				AND pelanggan.id = keranjang.pelanggan_id
+				AND pelanggan.wilayah_id = wilayah.id
+				AND keranjang.pemesanan_id is null
 		`;
 
 		return res.json({
@@ -215,11 +221,17 @@ export const getTotalByPemesananId = async (req, res) => {
 
 		const getTotalByPemesananId = await prisma.$queryRaw`
 			SELECT
-				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((keranjang.jumlah*keranjang.harga)-((keranjang.jumlah*keranjang.harga)
+				*(keranjang.diskon::NUMERIC/100)))) as catering,
+				ROUND(SUM((keranjang.jumlah*keranjang.harga)-((keranjang.jumlah*keranjang.harga)
+				*(keranjang.diskon::NUMERIC/100)))+MIN(pemesanan.ongkir)) AS total,
+				MIN(pemesanan.ongkir) as ongkir 
 			FROM
+				pemesanan,
 				keranjang
 			WHERE
-				pemesanan_id = ${id}
+				pemesanan.id = keranjang.pemesanan_id
+				AND keranjang.pemesanan_id = ${id}
 		`;
 
 		return res.json({

@@ -24,7 +24,8 @@ export const addPemesanan = async (req, res) => {
 		} = req.body;
 
 		const {
-			id: pelanggan_id
+			id: pelanggan_id,
+			wilayah_id
 		} = req.user;
 
 		if (!tgl_antar){
@@ -37,12 +38,19 @@ export const addPemesanan = async (req, res) => {
         const no_pesan = 'P'+moment().format('DDMMYYHHmmss');
         tgl_antar = minuteToDateTime(tgl_antar);
 
+		const getWilayahById = await prisma.wilayah.findFirst({
+			where: {
+				id: wilayah_id,
+			}
+		})
+
 		const addPemesanan = await prisma.pemesanan.create({
 			data: {
 				pelanggan_id,
 				no_pesan,
 				tgl_antar,
 				ket,
+				ongkir: getWilayahById.ongkir
 			},
 		});
 
