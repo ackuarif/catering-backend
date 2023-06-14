@@ -10,6 +10,7 @@ import {
 	getPemesananHeaderByIdRepository,
 	getPemesananProsesRepository, 
 	getPemesananSelesaiRepository, 
+	getPemesananUnpaidRepository, 
 	getPemesananVerifRepository, 
 	laporanPendapatanByDateRepository
 } from "../repositories/PemesananRepository";
@@ -104,6 +105,12 @@ export const deletePemesanan = async (req, res) => {
 				message: "Maaf, pemesanan telah terbayar.",
 			});		
 		}
+
+		const deleteKeranjang = await prisma.keranjang.deleteMany({
+			where: {
+				pemesanan_id: id,
+			},
+		});
 
 		const deletePemesanan = await prisma.pemesanan.deleteMany({
 			where: {
@@ -251,6 +258,23 @@ export const addPembayaran = async (req, res) => {
 	}
 };
 
+export const getPemesananUnpaid = async (req, res) => {
+	try {
+		const getPemesananUnpaid = await getPemesananUnpaidRepository();
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getPemesananUnpaid,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
 export const getPemesananVerif = async (req, res) => {
 	try {
 		const getPemesananVerif = await getPemesananVerifRepository();
@@ -286,6 +310,13 @@ export const verifPemesanan = async (req, res) => {
 				id
 			},
 		});
+
+		if(!checkData.tgl_bayar){
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pemesanan tersebut belum dilakukan pembayaran."
+			});			
+		}
 
 		if(checkData.tgl_verif){
 			return res.status(400).json({

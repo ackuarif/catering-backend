@@ -11,6 +11,7 @@ routes.get("/", Auth.pelangganIsAuthenticated, PemesananController.getPemesananA
 routes.get("/getById/:id", Auth.pelangganIsAuthenticated, PemesananController.getById);
 routes.post("/addPembayaran", [Auth.pelangganIsAuthenticated, multer.single("bukti_bayar")], PemesananController.addPembayaran);
 
+routes.get("/getPemesananUnpaid", Auth.adminIsAuthenticated, PemesananController.getPemesananUnpaid);
 routes.get("/getPemesananVerif", Auth.adminIsAuthenticated, PemesananController.getPemesananVerif);
 routes.get("/getPemesananProses", Auth.adminIsAuthenticated, PemesananController.getPemesananProses);
 routes.get("/getPemesananSelesai", Auth.adminIsAuthenticated, PemesananController.getPemesananSelesai);

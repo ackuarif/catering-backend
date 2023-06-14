@@ -5,6 +5,40 @@ import { getMonth } from "../libs/datetime";
 
 const prisma = new PrismaClient();
 
+export const getPemesananUnpaidRepository = async () => {
+	try {
+		const getDatas = await prisma.$queryRaw`
+			SELECT
+                pemesanan.*,
+                pelanggan.nama,
+                pelanggan.alamat,
+                pelanggan.telepon,
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))+MIN(pemesanan.ongkir)) AS total 
+			FROM
+                pemesanan,
+				keranjang,
+				pelanggan
+			WHERE
+                pemesanan.id = keranjang.pemesanan_id
+                AND pemesanan.pelanggan_id = pelanggan.id
+                AND pemesanan.tgl_bayar IS NULL			
+            GROUP BY
+                pemesanan.id,
+                pelanggan.id
+			ORDER BY
+				pemesanan.tgl_pesan DESC	
+		`;
+
+		getDatas.map((data) => {
+			data.tgl_pesan = moment(data.tgl_pesan).format("YYYY-MM-DD HH:mm:ss")
+		})
+
+		return getDatas;
+	} catch (error) {
+		throw error;
+	}	
+}
+
 export const getPemesananVerifRepository = async () => {
 	try {
 		const getDatas = await prisma.$queryRaw`
@@ -13,7 +47,7 @@ export const getPemesananVerifRepository = async () => {
                 pelanggan.nama,
                 pelanggan.alamat,
                 pelanggan.telepon,
-				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))+MIN(pemesanan.ongkir)) AS total 
 			FROM
                 pemesanan,
 				keranjang,
@@ -46,7 +80,7 @@ export const getPemesananProsesRepository = async () => {
                 pelanggan.nama,
                 pelanggan.alamat,
                 pelanggan.telepon,
-				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))+MIN(pemesanan.ongkir)) AS total 
 			FROM
                 pemesanan,
 				keranjang,
@@ -79,7 +113,7 @@ export const getPemesananSelesaiRepository = async () => {
                 pelanggan.nama,
                 pelanggan.alamat,
                 pelanggan.telepon,
-				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))+MIN(pemesanan.ongkir)) AS total 
 			FROM
                 pemesanan,
 				keranjang,
@@ -120,7 +154,7 @@ export const laporanPendapatanByDateRepository = async (req) => {
 			SELECT
                 pemesanan.*,
 				pelanggan.*,
-				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))+MIN(pemesanan.ongkir)) AS total 
 			FROM
                 pemesanan,
 				keranjang,
@@ -206,19 +240,23 @@ export const getPemesananHeaderByIdRepository = async (id) => {
                 pemesanan.*,
                 pelanggan.nama,
                 pelanggan.alamat,
+                wilayah.nama as wilayah_nama,
                 pelanggan.telepon,
-				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))) AS total 
+				ROUND(SUM((jumlah*harga)-((jumlah*harga)*(diskon::NUMERIC/100)))+MIN(pemesanan.ongkir)) AS total 
 			FROM
                 pemesanan,
 				keranjang,
-				pelanggan
+				pelanggan,
+				wilayah
 			WHERE
                 pemesanan.id = keranjang.pemesanan_id
                 AND pemesanan.pelanggan_id = pelanggan.id
+                AND pelanggan.wilayah_id = wilayah.id
                 AND pemesanan.id = ${id}
             GROUP BY
                 pemesanan.id,
-                pelanggan.id
+                pelanggan.id,
+				wilayah.id
 		`;
 
 		getDatas.map((data) => {
