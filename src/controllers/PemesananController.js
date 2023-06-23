@@ -20,6 +20,7 @@ const prisma = new PrismaClient();
 export const addPemesanan = async (req, res) => {
 	try {
 		let {
+			sistem_bayar,
 			tgl_antar,
 			ket,
 		} = req.body;
@@ -29,7 +30,7 @@ export const addPemesanan = async (req, res) => {
 			wilayah_id
 		} = req.user;
 
-		if (!tgl_antar){
+		if (!tgl_antar || !sistem_bayar){
 			return res.status(400).json({
 				success: false,
 				message: "Maaf, pengisian formulir tidak lengkap."
@@ -51,11 +52,12 @@ export const addPemesanan = async (req, res) => {
 				no_pesan,
 				tgl_antar,
 				ket,
-				ongkir: getWilayahById.ongkir
+				ongkir: getWilayahById.ongkir,
+				sistem_bayar,
 			},
 		});
 
-        const updateKeranjangByPelangganId = await prisma.keranjang.updateMany({
+        await prisma.keranjang.updateMany({
 			where: {
 				pemesanan_id: null,
 				pelanggan_id,
@@ -64,6 +66,16 @@ export const addPemesanan = async (req, res) => {
 				pemesanan_id: addPemesanan.id,
 			},
 		});
+
+		if(sistem_bayar == "Tunai")
+			await prisma.pemesanan.updateMany({
+				where: {
+					pemesanan_id: addPemesanan.id,
+				},
+				data: {
+					tgl_bayar: addPemesanan.tgl_pesan,
+				},
+			});
 
 		return res.json({
 			success: true,

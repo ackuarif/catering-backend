@@ -301,3 +301,211 @@ export const getMenuById = async (req, res) => {
 		});
 	}
 };
+
+export const addMenuIsi = async (req, res) => {
+	try {
+		let {
+			menu_id,
+			isi,
+		} = req.body;
+
+		if (!menu_id || !isi){
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pengisian formulir tidak lengkap."
+			});
+		}
+
+		const addMenuIsi = await prisma.menu_isi.create({
+			data: {
+				menu_id,
+				isi,
+			},
+		});
+
+		return res.json({
+			success: true,
+			message: "Isi menu berhasil disimpan.",
+			data: addMenuIsi,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getMenuIsiByMenuId = async (req, res) => {
+	try {
+		let { menu_id } = req.params;
+		menu_id = parseInt(menu_id);
+
+		if (!menu_id) {
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pengisian formulir tidak lengkap."
+			});
+		}
+
+		const getData = await prisma.menu_isi.findMany({
+			where: {
+				menu_id,
+			},
+		});
+
+		if(!getMenuById)
+			return res.json({
+				success: false,
+				message: "Data tidak ada.",
+			});
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getData
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const deleteMenuIsi = async (req, res) => {
+	try {
+		let { id } = req.params;
+		id = parseInt(id);
+
+		if (!id) {
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pengisian formulir tidak lengkap."
+			});
+		}
+
+		await prisma.menu_isi.delete({
+			where: {
+				id
+			},
+		});
+
+		return res.json({
+			success: true,
+			message: "isi menu berhasil dihapus.",
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const addMenuGambar = async (req, res) => {
+	try {
+		let {
+			menu_id,
+			gambar,
+		} = req.body;
+
+		if (!menu_id || gambar==""){
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pengisian formulir tidak lengkap."
+			});
+		}
+
+		const {
+			path,
+		} = req.file;
+
+		const uploadGambar = await cloudinary.uploader.upload(path);
+
+		const addMenuGambar = await prisma.menu_gambar.create({
+			data: {
+				menu_id,
+				gambar: uploadGambar,
+			},
+		});
+
+		return res.json({
+			success: true,
+			message: "Gambar menu berhasil disimpan.",
+			data: addMenuGambar,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const getMenuGambarByMenuId = async (req, res) => {
+	try {
+		let { menu_id } = req.params;
+		menu_id = parseInt(menu_id);
+
+		if (!menu_id) {
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pengisian formulir tidak lengkap."
+			});
+		}
+
+		const getData = await prisma.menu_gambar.findMany({
+			where: {
+				menu_id,
+			},
+		});
+
+		if(!getData)
+			return res.json({
+				success: false,
+				message: "Data tidak ada.",
+			});
+
+		return res.json({
+			success: true,
+			message: "Sukses",
+			data: getData
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};
+
+export const deleteMenuGambar = async (req, res) => {
+	try {
+		let { id } = req.params;
+		id = parseInt(id);
+
+		if (!id) {
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pengisian formulir tidak lengkap."
+			});
+		}
+
+		await prisma.menu_gambar.delete({
+			where: {
+				id
+			},
+		});
+
+		return res.json({
+			success: true,
+			message: "isi menu berhasil dihapus.",
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: JSON.stringify(error)
+		});
+	}
+};

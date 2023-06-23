@@ -10,3 +10,9 @@ routes.put("/:id", [Auth.adminIsAuthenticated, multer.single("gambar")], MenuCon
 routes.delete("/:id", Auth.adminIsAuthenticated, MenuController.deleteMenu);
 routes.get("/", MenuController.getMenuAll);
 routes.get("/getMenuById/:id", MenuController.getMenuById);
+routes.post("/addMenuIsi", Auth.adminIsAuthenticated, MenuController.addMenuIsi);
+routes.delete("/deleteMenuIsi", Auth.adminIsAuthenticated, MenuController.deleteMenuIsi);
+routes.get("/getMenuIsiByMenuId/:menu_id", MenuController.getMenuIsiByMenuId);
+routes.post("/addMenuGambar", Auth.adminIsAuthenticated, MenuController.addMenuGambar);
+routes.delete("/deleteMenuGambar", Auth.adminIsAuthenticated, MenuController.deleteMenuGambar);
+routes.get("/getMenuGambarByMenuId/:menu_id", MenuController.getMenuGambarByMenuId);

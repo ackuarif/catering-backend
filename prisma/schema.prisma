@@ -31,24 +31,27 @@ model pelanggan {
 }
 
 model menu {
-  id          Int       @id @default(autoincrement())
-  admin_id    Int
-  nama        String
-  harga       Int
-  diskon      Int
-  gambar      String?
-  detail      String
-  tersedia    String?
-  created_at  DateTime  @default(now()) @db.Timestamptz
-  deleted_at  DateTime?
-  keranjangs  keranjang[]
-  testimonis  testimoni[]
+  id            Int       @id @default(autoincrement())
+  admin_id      Int
+  nama          String
+  harga         Int
+  diskon        Int
+  gambar        String?
+  detail        String
+  tersedia      String?
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  deleted_at    DateTime?
+  keranjangs    keranjang[]
+  testimonis    testimoni[]
+  menu_isis     menu_isi[]
+  menu_gambars  menu_gambar[]
 }
 
 model pemesanan {
   id            Int       @id @default(autoincrement())
   pelanggan_id  Int
   no_pesan      String
+  sistem_bayar  String?
   tgl_pesan     DateTime  @default(now()) @db.Timestamptz
   tgl_antar     DateTime?
   tgl_bayar     DateTime?
@@ -125,4 +128,20 @@ model wilayah {
   created_at  DateTime  @default(now()) @db.Timestamptz
   deleted_at  DateTime?
   pelanggans  pelanggan[]
+}
+
+model menu_isi {
+  id            Int       @id @default(autoincrement())
+  menu_id       Int
+  isi           String
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  menu          menu      @relation(fields: [menu_id], references: [id])
+}
+
+model menu_gambar {
+  id            Int       @id @default(autoincrement())
+  menu_id       Int
+  gambar        String
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  menu          menu      @relation(fields: [menu_id], references: [id])
 }
