@@ -68,9 +68,9 @@ export const addPemesanan = async (req, res) => {
 		});
 
 		if(sistem_bayar == "Tunai")
-			await prisma.pemesanan.updateMany({
+			await prisma.pemesanan.update({
 				where: {
-					pemesanan_id: addPemesanan.id,
+					id: addPemesanan.id,
 				},
 				data: {
 					tgl_bayar: addPemesanan.tgl_pesan,
@@ -221,7 +221,6 @@ export const addPembayaran = async (req, res) => {
 			});
 		}
 
-
 		const {
 			path,
 		} = req.file;
@@ -229,19 +228,23 @@ export const addPembayaran = async (req, res) => {
 		id = parseInt(id);
 		tgl_bayar = minuteToDateTime(tgl_bayar);
 
-		const checkPembayaran = await prisma.pemesanan.findMany({
+		const checkPembayaran = await prisma.pemesanan.findFirst({
 			where: {
 				id,
-				NOT: {
-					tgl_verif: null,
-				},
 			},
 		});
 
-		if(checkPembayaran.length > 0){
+		if(checkPembayaran.sistem_bayar == "Tunai"){
 			return res.status(400).json({
 				success: false,
-				message: "Maaf, pemesanan tersebut tersebut terverifikasi."
+				message: "Maaf, isian pembayaran ini hanya untuk sistem bayar transfer."
+			});
+		}
+
+		if(checkPembayaran.tgl_verif){
+			return res.status(400).json({
+				success: false,
+				message: "Maaf, pemesanan tersebut terverifikasi."
 			});
 		}
 

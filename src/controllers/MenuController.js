@@ -316,6 +316,8 @@ export const addMenuIsi = async (req, res) => {
 			});
 		}
 
+		menu_id = parseInt(menu_id)
+
 		const addMenuIsi = await prisma.menu_isi.create({
 			data: {
 				menu_id,
@@ -417,6 +419,8 @@ export const addMenuGambar = async (req, res) => {
 			});
 		}
 
+		menu_id = parseInt(menu_id)
+
 		const {
 			path,
 		} = req.file;
@@ -426,7 +430,7 @@ export const addMenuGambar = async (req, res) => {
 		const addMenuGambar = await prisma.menu_gambar.create({
 			data: {
 				menu_id,
-				gambar: uploadGambar,
+				gambar: uploadGambar.secure_url,
 			},
 		});
 
