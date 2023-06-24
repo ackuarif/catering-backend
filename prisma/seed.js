@@ -14,6 +14,14 @@ async function main() {
 			},
 		});  
 
+    await prisma.testimoni.deleteMany({
+			where: {
+				NOT: {
+					id: 0,
+				},
+			},
+		});  
+
     await prisma.logs.deleteMany({
 			where: {
 				NOT: {
